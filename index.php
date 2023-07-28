@@ -4,10 +4,96 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GraStore</title>
+    <!-- Bootstrap 5.2 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
-    <h1>Hello, world!</h1>
+
+    <!-- Header -->
+    <?php include("app/include/header.php"); ?>
+
+    <section class="main">
+        <div class="container">
+            
+            <!-- Search -->
+            <div class="section search">
+                <h3>Поиск магазина:</h3>
+                <div class="row">
+                    <form action="#" method="post">
+                        <input type="text" name="search-term" class="text-input">
+                    </form>
+                </div>
+                
+            </div>
+
+            <!-- Div Stores -->
+            <div class="stores row">
+
+                <div class="col-4 block">
+                    <a href="#" class="store">
+                        <div class="store_block">
+                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
+                            <p class="title_store">
+                                Магнит
+                            </p>
+                        </div>
+                    </a>
+                    
+                </div>
+
+                <div class="col-4 block">
+                    <a href="#" class="store">
+                        <div class="store_block">
+                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
+                            <p class="title_store">
+                                Магнит
+                            </p>
+                        </div>
+                    </a>
+                    
+                </div>
+
+                <div class="col-4 block">
+                    <a href="#" class="store">
+                        <div class="store_block">
+                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
+                            <p class="title_store">
+                                Магнит
+                            </p>
+                        </div>
+                    </a>
+                    
+                </div>
+
+                <div class="col-4 block">
+                    <a href="#" class="store">
+                        <div class="store_block">
+                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
+                            <p class="title_store">
+                                Магнит
+                            </p>
+                        </div>
+                    </a>
+                    
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <?php include("app/include/footer.php"); ?>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   </body>
 </html>

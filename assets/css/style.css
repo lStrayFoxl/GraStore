@@ -1,0 +1,235 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* HEADER */
+.header {
+    background-color: #F6D64F;
+    height: 90px;
+}
+
+.header_menu {
+    padding: 17px 0;
+}
+
+.title {
+    font-family: 'Jockey One', sans-serif;
+    text-decoration: none;
+    color: black;
+    font-size: 48px;
+}
+
+.title:hover {
+    color: black;
+}
+
+.button_enter {
+    text-align: right;
+    padding-top: 10px;
+}
+
+.enter {
+    text-decoration: none;
+    color: black;
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.enter:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+/* Main */
+div.section {
+    margin-top: 16px;
+}
+
+div.section h3 {
+    font-size: 32px;
+}
+
+.text-input {
+    margin-top: 14px;
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background: #F5F0DA;
+}
+
+.block {
+    margin-top: 34px;
+}
+
+.store {
+    text-decoration: none;
+    color: black;
+}
+
+.store:hover {
+    color: black;
+}
+
+.store_block {
+    background: #D4EBF9;
+    max-width: 350px;
+    height: 390px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+.store_block:hover {
+    border: 2px solid #F6D64F;
+    color: #F6D64F;
+}
+
+.img_icon {
+    padding-top: 66px;
+}
+
+.title_store {
+    padding-top: 14px;
+    font-size: 32px;
+    font-weight: 500;
+}
+
+
+/*
+  Footer
+*/
+
+.footer{
+    margin-top: 65px;
+    background: #F6D64F;
+    color: black;
+    position: relative;
+    height: 325px;
+}
+  
+.footer .footer-section{
+    padding: 22px;
+}
+
+.footer .footer-section p{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.footer .footer-section h3{
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.footer .name {
+    font-family: 'Jockey One', sans-serif;
+    font-size: 32px;
+}
+  
+.footer .links ul a{
+    display: block;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: black;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer .links ul a li{
+    list-style-type: none;
+    margin-left: -30px;
+}
+  
+.footer .links ul a:hover{
+    color: black;
+    text-decoration: underline;
+}
+  
+.footer .contact-form .contact-input{
+    background: #F5F0DA;
+    margin-bottom: 10px;
+    line-height: 1.5rem;
+    padding: .9rem 1.4rem;
+    border: none;
+    width: 100%;
+    height: 169px;
+    resize: none;
+}
+  
+.footer .contact-form .contact-input:focus{
+    border: 1px solid #000;;
+}
+  
+.footer .contact-form .contact-btn{
+    float: right;
+    font-size: 14px;
+    font-weight: 500;
+    width: 160px;
+    height: 34px;
+    border-radius: 10px;
+    border: none;
+    background: #F5F0DA;
+}
+
+.footer .contact-form .contact-btn:hover{
+    border: 1px solid #000;
+}
+
+/* Btn Back */
+.block_back {
+    margin-top: 78px;
+}
+
+.btn_back {
+    font-size: 14px;
+    font-weight: 500;
+    width: 160px;
+    height: 34px;
+    border-radius: 10px;
+    border: none;
+    background: #F5F0DA;
+}
+
+.btn_back:hover {
+    border: 1px solid #000;
+    background: #F5F0DA;
+}
+
+/* About_us */
+.content_block {
+    margin-top: -2.2rem;
+}
+
+.article {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    margin-bottom: 39px;
+}
+
+.text_parag {
+    margin: 0;
+    font-size: 20px;
+    text-align: justify;
+    font-weight: 400;
+}
+
+/* Contact */
+.cont, .link {
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.link_art {
+    margin: 65px auto 16px;
+}
+
+.link {
+    margin-bottom: 21px;
+}
+
+.link a {
+    color: #000;
+    text-decoration: none;
+}
