@@ -11,16 +11,16 @@
             <div class="footer-section links col-md-4 col-12">
                 <h3>Меню:</h3>
                 <ul>
-                    <a href="/">
+                    <a href="<?=BASE_URL?>">
                         <li>Главная</li>
                     </a>
-                    <a href="#">
+                    <a href="<?= BASE_URL . "/pages/contact.php" ?>">
                         <li>Контакты</li>
                     </a>
-                    <a href="#">
+                    <a href="<?= BASE_URL . "/pages/about_us.php" ?>">
                         <li>О нас</li>
                     </a>
-                    <a href="#">
+                    <a href="<?=BASE_URL?>">
                         <li>Список магазинов</li>
                     </a>
                 </ul>
@@ -28,9 +28,9 @@
 
             <div class="footer-section contact-form col-md-4 col-12">
                 <h3>Оставте отзыв о сайте</h3>
-                <form action="/" method="post">
-                    <textarea name="message" rows="4" class="text-input contact-input"></textarea>
-                    <button type="submit" class="btn btn-big contact-btn">
+                <form action="<?=BASE_URL . "/app/controllers/review.php"?>" method="post">
+                    <textarea name="comment" rows="4" class="text-input contact-input"></textarea>
+                    <button type="submit" class="btn btn-big contact-btn" name="btnRev">
                         Отправить
                     </button>
                 </form>

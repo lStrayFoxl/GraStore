@@ -233,3 +233,62 @@ div.section h3 {
     color: #000;
     text-decoration: none;
 }
+
+/* Modal Window */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal_content {
+    
+    background-color: white;
+    margin: 5% auto 0;
+    padding: 23px 21px;
+    border: 2px solid #F6D64F;
+    border-radius: 10px;
+    width: 442px;
+    height: 462px;
+}
+
+.title_create {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 23px;
+}
+
+.name, .text_com {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.enter_name, .enter_com, .create_btn {
+    background: #F5F0DA;
+    border-radius: 10px;
+    border: 1px solid #000;
+    font-size: 18px;
+}
+
+.enter_name, .enter_com {
+    width: 400px;
+    height: 45px;
+}
+
+.center_btn {
+    margin-top: 62px;
+    display: flex;	
+    justify-content: center;
+}
+
+/* .create_btn {
+    width: 230px;
+    height: 45px;
+} */

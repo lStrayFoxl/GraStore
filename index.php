@@ -1,3 +1,8 @@
+<?php
+    include("path.php");
+    include("app/database/connect.php");
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -20,6 +25,9 @@
 
     <!-- Header -->
     <?php include("app/include/header.php"); ?>
+    
+    <!-- ModalWindowEnter -->
+    <?php include("app/include/enterModal.php"); ?>
 
     <section class="main">
         <div class="container">

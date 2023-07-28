@@ -8,7 +8,7 @@
             </div>
 
             <div class="button_enter col-2">
-                <a href="#" class="enter">Войти</a>
+                <a href="#" class="enter" id="enter">Войти</a>
             </div>
         </div>
             
