@@ -1,4 +1,13 @@
 <?php
+    session_start();
+    // if(isset($_SESSION['login'])) { 
+    //     echo "Сессия существует"; 
+    // }
+    // else { 
+    //     session_destroy();
+    //     echo "Такой сессии не существует";
+    // }
+
     include("path.php");
     include("app/database/connect.php");
 ?>

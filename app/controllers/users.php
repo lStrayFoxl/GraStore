@@ -1,6 +1,21 @@
 <?php
+    session_start();
+
     include("../../path.php");
     include("../database/db.php");
+
+    // Function user enter
+    function AuthUser($array) {
+        $_SESSION['id'] = $array['id'];
+        $_SESSION['login'] = $array['login'];
+        $_SESSION['admin'] = $array['admin'];
+    
+        if($_SESSION['admin']){
+            header('location: ' . BASE_URL . '/admin/posts/index.php');
+        }else {
+            header('location: ' . BASE_URL);
+        }
+    }
 
     // Code form registration
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registr'])) {
@@ -44,11 +59,31 @@
             }
             else{
                 if($existence && password_verify($pass, $existence['password'])) {
-                    echo("Вошёл");
+                    AuthUser($existence);
                 }else {
-                    echo("Почта или пароль введены не верно!");
+                    echo("Логин или пароль введены не верно!");
                 }
             }
             
         }
+    }
+
+    // Code exit user
+    if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['btnExit'])) {
+        // сбросить все переменные сессии
+        $_SESSION = array();
+
+        // сбросить куки, к которой привязана сессия
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // уничтожить сессию
+        session_destroy();
+
+        header('location: ' . BASE_URL);
     }
