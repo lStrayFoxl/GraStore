@@ -78,7 +78,7 @@
                                 New Photo
                             </a>
 
-                            <a class="btn btn-big profile-btn" name="btnAdmin">
+                            <a href="<?=BASE_URL . "/app/admin/store/index.php";?>" class="btn btn-big profile-btn" name="btnAdmin">
                                 Admin Panel
                             </a>
                         </div>
