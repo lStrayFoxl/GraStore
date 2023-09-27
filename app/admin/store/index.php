@@ -3,6 +3,9 @@
 
     include("../../../path.php");
     include("../../database/connect.php");
+    include("../../database/db.php");
+
+    $stores = selectAll("store");
 ?>
 
 <!doctype html>
@@ -67,59 +70,25 @@
                         </div>
                     </div>
 
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>1</span>
-                        </div>
+                    <?php foreach($stores as $key => $store): ?>
+                        <div class="data_row row">
+                            <div class="col-1 center_cont">
+                                <span><?=$store['id'];?></span>
+                            </div>
 
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
+                            <div class="col-7">
+                                <span><?=$store['name'];?></span>
+                            </div>
 
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
+                            <div class="col-2 center_cont">
+                                <span class="control">Изменить</span>
+                            </div>
 
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
+                            <div class="col-2 center_cont">
+                                <span class="control" id="delete">Удалить</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>2</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
-                        </div>
-                    </div>
-
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>3</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
