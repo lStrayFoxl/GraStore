@@ -9,6 +9,7 @@ let btnEnt = document.getElementById("ent")
 let modalReg = document.getElementById('modalReg');
 let btnReg = document.getElementById("reg");
 
+
 // Function for displaying a modal window for Enter
 btnEnter.onclick = function() {
     modalEnter.style.display = "block";

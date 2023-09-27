@@ -1,7 +1,7 @@
 <!-- Modal section -->
 <section class="modal_sect">
 
-    <!-- Modal Input Window -->
+    <!-- Modal Enter Window -->
     <div class="modal" id="modalEnter">
         <div class="container">
             <div class="center_cont">
@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <!-- Modal Input Window -->
+    <!-- Modal Registration Window -->
     <div class="modal" id="modalReg">
         <div class="container">
             <div class="center_cont">

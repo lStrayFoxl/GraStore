@@ -3,6 +3,9 @@
 
     include("../../../path.php");
     include("../../database/connect.php");
+    include("../../database/db.php");
+
+    $reviews = selectAll("review");
 ?>
 
 <!doctype html>
@@ -63,59 +66,26 @@
                         </div>
                     </div>
 
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>1</span>
-                        </div>
+                    <?php foreach($reviews as $key => $review): ?>
+                        <div class="data_row row">
+                            <div class="col-1 center_cont">
+                                <span><?=$review['id'];?></span>
+                            </div>
 
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
+                            <div class="col-7">
+                                <span><?=$review['comment'];?></span>
+                            </div>
 
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
+                            <div class="col-2 center_cont">
+                                <span class="control">Изменить</span>
+                            </div>
 
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
+                            <div class="col-2 center_cont">
+                                <span class="control" id="delete">Удалить</span>
+                            </div>
                         </div>
-                    </div>
+                    <?php endforeach; ?>
 
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>2</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
-                        </div>
-                    </div>
-
-                    <div class="data_row row">
-                        <div class="col-1 center_cont">
-                            <span>3</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Lorem ipsum</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Изменить</span>
-                        </div>
-
-                        <div class="col-2 center_cont">
-                            <span class="control">Удалить</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
