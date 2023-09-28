@@ -59,3 +59,17 @@
 .control:hover {
     color: #F6D64F;
 }
+
+/* Add Page */
+.back_btn {
+    height: 40px;
+    background-color: #F5F0DA;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.back_btn:hover {
+    background-color: #F5F0DA;
+    border: 1px solid #000;
+}

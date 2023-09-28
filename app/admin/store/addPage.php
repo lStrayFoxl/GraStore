@@ -2,10 +2,7 @@
     session_start();
 
     include("../../../path.php");
-    include("../../database/connect.php");
-    include("../../database/db.php");
-
-    $stores = selectAll("store");
+    include("../../controllers/store.php");
 ?>
 
 <!doctype html>
@@ -34,61 +31,45 @@
 
     <section class="main">
         <div class="container">
-            
-            <!-- Search -->
-            <div class="section search">
-                <h3>Поиск:</h3>
-                <div class="row">
-                    <form action="#" method="post" class="col-10">
-                        <input type="text" name="search-term" class="text-input">
-                    </form>
-
-                    <div class="col-2">
-                        <a href="addPage.php" class="btn btn-big add_btn">Добавить</a>
-                    </div>
-                </div>
-                
-            </div>
 
             <!-- Admin panel -->
             <div class="admin_block row">
                 <!-- Side Bar -->
                 <?php include("../../include/side-bar_admin.php"); ?>
 
-                <div class="panel col-9">
-                    <div class="col_bar row">
-                        <div class="col-1 center_cont">
-                            <span>Id</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Название</span>
-                        </div>
-
-                        <div class="col-4">
-                            <span>Управление</span>
-                        </div>
+                <div class="col-9">
+                    <div class="button row">
+                        <a href="index.php" class="col-2 btn back_btn">Назад</a>
                     </div>
 
-                    <?php foreach($stores as $key => $store): ?>
-                        <div class="data_row row">
-                            <div class="col-1 center_cont">
-                                <span><?=$store['id'];?></span>
-                            </div>
+                    <div class="row title-table">
+                        <h2>Добавление магазина</h2>
+                    </div>
 
-                            <div class="col-7">
-                                <span><?=$store['name'];?></span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <span class="control">Изменить</span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <span class="control" id="delete">Удалить</span>
-                            </div>
+                    <div class="row add-post">
+                        <div class="mb-12 col-12 col-md-12 err">
+                        <!-- Вывод ошибок с массива -->
+                        <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
-                    <?php endforeach; ?>
+                        <form action="addPage.php" method="post" enctype="multipart/form-data">
+                            <div class="col mb-4">
+                                <input value="<?=$title; ?>" name="title" type="text" class="form-control" placeholder="Title" aria-label="Название магазина">
+                            </div>
+                            <div class="col">
+                                <label for="editor" class="form-label">Описание магазина</label>
+                                <textarea name="description" class="form-control" id="editor" rows="6"><?=$descript; ?></textarea>
+                            </div>
+                            <div class="input-group col mb-4 mt-4">
+                                <input name="img" type="file" class="form-control" id="inputGroupFile02">
+                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                            </div>
+
+                            <div class="col col-6">
+                                <button name="btnAddStore" class="btn back_btn" type="submit">Добавить магазин</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
 
