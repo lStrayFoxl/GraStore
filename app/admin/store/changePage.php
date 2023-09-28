@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="row title-table">
-                        <h2>Добавление магазина</h2>
+                        <h2>Изменение данных магазина</h2>
                     </div>
 
                     <div class="row add-post">
@@ -52,6 +52,7 @@
                         <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
                         <form action="addPage.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="<?=$id;?>">
                             <div class="col mb-4">
                                 <input value="<?=$title; ?>" name="title" type="text" class="form-control" placeholder="Название магазина" aria-label="Название магазина">
                             </div>
@@ -65,7 +66,7 @@
                             </div>
 
                             <div class="col col-6">
-                                <button name="btnAddStore" class="btn back_btn" type="submit">Добавить магазин</button>
+                                <button name="btnChangeStore" class="btn back_btn" type="submit">Изменить</button>
                             </div>
                         </form>
                     </div>

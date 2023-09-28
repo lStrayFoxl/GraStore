@@ -81,11 +81,11 @@
                             </div>
 
                             <div class="col-2 center_cont">
-                                <span class="control">Изменить</span>
+                                <a href="<?='changePage.php?change_id='. $store['id'];?>" class="control">Изменить</a>
                             </div>
 
                             <div class="col-2 center_cont">
-                                <span class="control" id="delete">Удалить</span>
+                                <a href="<?='addPage.php?delete_id='. $store['id'];?>" class="control">Удалить</a>
                             </div>
                         </div>
                     <?php endforeach; ?>
