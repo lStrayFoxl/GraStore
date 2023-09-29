@@ -78,3 +78,7 @@
     background-color: #F5F0DA;
     border: 1px solid #000;
 }
+
+.form-check {
+    margin-bottom: 20px !important;
+}
