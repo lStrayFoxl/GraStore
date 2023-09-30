@@ -2,10 +2,7 @@
     session_start();
 
     include("../../../path.php");
-    include("../../database/connect.php");
-    include("../../database/db.php");
-
-    $reviews = selectAll("review");
+    include("../../controllers/review-admin.php");
 ?>
 
 <!doctype html>
@@ -34,57 +31,41 @@
 
     <section class="main">
         <div class="container">
-            
-            <!-- Search -->
-            <div class="section search">
-                <h3>Поиск:</h3>
-                <div class="row">
-                    <form action="#" method="post" class="col-10">
-                        <input type="text" name="search-term" class="text-input">
-                    </form>
-                </div>
-                
-            </div>
 
             <!-- Admin panel -->
             <div class="admin_block row">
                 <!-- Side Bar -->
                 <?php include("../../include/side-bar_admin.php"); ?>
 
-                <div class="panel col-9">
-                    <div class="col_bar row">
-                        <div class="col-1 center_cont">
-                            <span>Id</span>
-                        </div>
-
-                        <div class="col-7">
-                            <span>Comment</span>
-                        </div>
-
-                        <div class="col-4">
-                            <span>Управление</span>
-                        </div>
+                <div class="col-9">
+                    <div class="button row">
+                        <a href="index.php" class="col-2 btn back_btn">Назад</a>
                     </div>
 
-                    <?php foreach($reviews as $key => $review): ?>
-                        <div class="data_row row">
-                            <div class="col-1 center_cont">
-                                <span><?=$review['id'];?></span>
-                            </div>
+                    <div class="row title-table">
+                        <h2>Изменение данных отзыва</h2>
+                    </div>
 
-                            <div class="col-7">
-                                <span><?=$review['comment'];?></span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='changePage.php?change_id='. $review['id'];?>" class="control">Изменить</a>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='changePage.php?delete_id='. $review['id'];?>" class="control">Удалить</a>
-                            </div>
+                    <div class="row add-post">
+                        <div class="mb-12 col-12 col-md-12 err">
+                        <!-- Вывод ошибок с массива -->
+                        <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
-                    <?php endforeach; ?>
+                        <form action="changePage.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="id" value="<?=$id;?>">
+                            <div class="col mb-4">
+                                <input value="<?=$id_user; ?>" name="title" type="text" class="form-control" placeholder="Id user" aria-label="Название магазина">
+                            </div>
+                            <div class="col">
+                                <label for="editor" class="form-label">Отзыв</label>
+                                <textarea name="comment" class="form-control" id="editor" rows="6"><?=$comment; ?></textarea>
+                            </div>
+
+                            <div class="col col-6">
+                                <button name="btnChangeReview" class="btn back_btn" type="submit">Изменить</button>
+                            </div>
+                        </form>
+                    </div>
 
                 </div>
             </div>
