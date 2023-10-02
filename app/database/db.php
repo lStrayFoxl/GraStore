@@ -142,4 +142,21 @@
   
     dbCheckError($query);
   }
+
+  // Поиск по слову
+  function searchInWord($term, $table) {
+    global $dbh;
+
+    $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+    $sql = "SELECT s.* FROM $table AS s 
+            WHERE s.name LIKE '%$text%'";
+
+    $query = $dbh->prepare($sql);
+    $query->execute();
+
+    dbCheckError($query);
+
+    return $query->fetchAll();
+}
   

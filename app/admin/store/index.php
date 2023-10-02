@@ -5,7 +5,14 @@
     include("../../database/connect.php");
     include("../../database/db.php");
 
-    $stores = selectAll("store");
+    if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
+        $term = $_POST['search-term'];
+        $stores = searchInWord($term, "store");
+    }else{
+        $term = "";
+        $stores = selectAll("store");
+    }
+    
 ?>
 
 <!doctype html>
@@ -40,7 +47,7 @@
                 <h3>Поиск:</h3>
                 <div class="row">
                     <form action="#" method="post" class="col-10">
-                        <input type="text" name="search-term" class="text-input">
+                        <input value="<?=$term;?>" type="text" name="search-term" class="text-input">
                     </form>
 
                     <div class="col-2">
@@ -69,26 +76,33 @@
                             <span>Управление</span>
                         </div>
                     </div>
-
-                    <?php foreach($stores as $key => $store): ?>
+                    <?php if(empty($stores)): ?>
                         <div class="data_row row">
-                            <div class="col-1 center_cont">
-                                <span><?=$store['id'];?></span>
-                            </div>
-
-                            <div class="col-7">
-                                <span><?=$store['name'];?></span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='changePage.php?change_id='. $store['id'];?>" class="control">Изменить</a>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='addPage.php?delete_id='. $store['id'];?>" class="control">Удалить</a>
+                            <div class="col-12">
+                                <span>Ничего не найдено.</span>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php foreach($stores as $key => $store): ?>
+                            <div class="data_row row">
+                                <div class="col-1 center_cont">
+                                    <span><?=$store['id'];?></span>
+                                </div>
+
+                                <div class="col-7">
+                                    <span><?=$store['name'];?></span>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?='changePage.php?change_id='. $store['id'];?>" class="control">Изменить</a>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?='addPage.php?delete_id='. $store['id'];?>" class="control">Удалить</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif;?>
                 </div>
             </div>
 
