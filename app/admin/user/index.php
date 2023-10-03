@@ -5,7 +5,14 @@
     include("../../database/connect.php");
     include("../../database/db.php");
 
-    $users = selectAll("users");
+    if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
+        $term = $_POST['search-term'];
+        $users = searchInUser($term, "users");
+    }else{
+        $term = "";
+        $users = selectAll("users");
+    }
+    
 ?>
 
 <!doctype html>
@@ -40,7 +47,7 @@
                 <h3>Поиск:</h3>
                 <div class="row">
                     <form action="#" method="post" class="col-10">
-                        <input type="text" name="search-term" class="text-input">
+                        <input value="<?=$term;?>" type="text" name="search-term" class="text-input">
                     </form>
 
                     <div class="col-2">
@@ -69,26 +76,33 @@
                             <span>Управление</span>
                         </div>
                     </div>
-
-                    <?php foreach($users as $key => $user): ?>
+                    <?php if(empty($users)):?>
                         <div class="data_row row">
-                            <div class="col-1 center_cont">
-                                <span><?=$user['id'];?></span>
-                            </div>
-
-                            <div class="col-7">
-                                <span><?=$user['login'];?></span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?="changePage.php?change_id=" . $user['id'];?>" class="control">Изменить</a>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?="addPage.php?delete_id=" . $user['id'];?>" class="control">Удалить</a>
+                            <div class="col-12">
+                                <span>Ничего не найдено.</span>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php else:?>
+                        <?php foreach($users as $key => $user): ?>
+                            <div class="data_row row">
+                                <div class="col-1 center_cont">
+                                    <span><?=$user['id'];?></span>
+                                </div>
+
+                                <div class="col-7">
+                                    <span><?=$user['login'];?></span>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?="changePage.php?change_id=" . $user['id'];?>" class="control">Изменить</a>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?="addPage.php?delete_id=" . $user['id'];?>" class="control">Удалить</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif;?>
                 </div>
             </div>
 

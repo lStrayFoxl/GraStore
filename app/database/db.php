@@ -159,4 +159,38 @@
 
     return $query->fetchAll();
 }
+
+// Поиск пользователя
+function searchInUser($term, $table) {
+  global $dbh;
+
+  $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+  $sql = "SELECT u.* FROM $table AS u 
+          WHERE u.login LIKE '%$text%'";
+
+  $query = $dbh->prepare($sql);
+  $query->execute();
+
+  dbCheckError($query);
+
+  return $query->fetchAll();
+}
+
+// Поиск комментариев и отзывов
+function searchInComment($term, $table) {
+  global $dbh;
+
+  $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+  $sql = "SELECT u.* FROM $table AS u 
+          WHERE u.comment LIKE '%$text%'";
+
+  $query = $dbh->prepare($sql);
+  $query->execute();
+
+  dbCheckError($query);
+
+  return $query->fetchAll();
+}
   

@@ -5,7 +5,14 @@
     include("../../database/connect.php");
     include("../../database/db.php");
 
-    $comments = selectAll("comments");
+    if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
+        $term = $_POST['search-term'];
+        $comments = searchInComment($term, "comments");
+    }else{
+        $term = "";
+        $comments = selectAll("comments");
+    }
+    
 ?>
 
 <!doctype html>
@@ -40,7 +47,7 @@
                 <h3>Поиск:</h3>
                 <div class="row">
                     <form action="#" method="post" class="col-10">
-                        <input type="text" name="search-term" class="text-input">
+                        <input value="<?=$term;?>" type="text" name="search-term" class="text-input">
                     </form>
                 </div>
                 
@@ -65,26 +72,33 @@
                             <span>Управление</span>
                         </div>
                     </div>
-
-                    <?php foreach($comments as $key => $comment): ?>
+                    <?php if(empty($comments)): ?>
                         <div class="data_row row">
-                            <div class="col-1 center_cont">
-                                <span><?=$comment['id'];?></span>
-                            </div>
-
-                            <div class="col-7">
-                                <span><?=$comment['comment'];?></span>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='changePage.php?change_id='. $comment['id'];?>" class="control">Изменить</a>
-                            </div>
-
-                            <div class="col-2 center_cont">
-                                <a href="<?='changePage.php?delete_id='. $comment['id'];?>" class="control">Удалить</a>
+                            <div class="col-12">
+                                <span>Ничего не найдено.</span>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    <?php else:?>
+                        <?php foreach($comments as $key => $comment): ?>
+                            <div class="data_row row">
+                                <div class="col-1 center_cont">
+                                    <span><?=$comment['id'];?></span>
+                                </div>
+
+                                <div class="col-7">
+                                    <span><?=$comment['comment'];?></span>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?='changePage.php?change_id='. $comment['id'];?>" class="control">Изменить</a>
+                                </div>
+
+                                <div class="col-2 center_cont">
+                                    <a href="<?='changePage.php?delete_id='. $comment['id'];?>" class="control">Удалить</a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif;?>
                 </div>
             </div>
 
