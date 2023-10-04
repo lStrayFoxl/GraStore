@@ -10,6 +10,17 @@
 
     include("path.php");
     include("app/database/connect.php");
+    include("app/database/db.php");
+    
+    if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
+        $term = $_POST['search-term'];
+        $stores = searchInWord($term, "store");
+    }else{
+        $term = "";
+        $stores = selectAll("store");
+    }
+
+    // $stores = selectAll("store");
 ?>
 
 <!doctype html>
@@ -45,8 +56,8 @@
             <div class="section search">
                 <h3>Поиск магазина:</h3>
                 <div class="row">
-                    <form action="#" method="post">
-                        <input type="text" name="search-term" class="text-input">
+                    <form action="index.php" method="post">
+                        <input value="<?=$term;?>" type="text" name="search-term" class="text-input">
                     </form>
                 </div>
                 
@@ -54,54 +65,25 @@
 
             <!-- Div Stores -->
             <div class="stores row">
-
-                <div class="col-4 block">
-                    <a href="#" class="store">
-                        <div class="store_block">
-                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
-                            <p class="title_store">
-                                Магнит
-                            </p>
+                <?php if (empty($stores)): ?>
+                    <div class="col-12">
+                        <span>Ничего не найдено.</span>
+                    </div>
+                <?php else: ?>
+                    <?php foreach ($stores as $key => $store): ?>
+                        <div class="col-4 block">
+                            <a href="#" class="store">
+                                <div class="store_block">
+                                    <img src="/assets/img/Magnit_icon.png" alt="<?=$store['name'];?>" class="img_icon">
+                                    <p class="title_store">
+                                        <?=$store['name'];?>
+                                    </p>
+                                </div>
+                            </a>
+                            
                         </div>
-                    </a>
-                    
-                </div>
-
-                <div class="col-4 block">
-                    <a href="#" class="store">
-                        <div class="store_block">
-                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
-                            <p class="title_store">
-                                Магнит
-                            </p>
-                        </div>
-                    </a>
-                    
-                </div>
-
-                <div class="col-4 block">
-                    <a href="#" class="store">
-                        <div class="store_block">
-                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
-                            <p class="title_store">
-                                Магнит
-                            </p>
-                        </div>
-                    </a>
-                    
-                </div>
-
-                <div class="col-4 block">
-                    <a href="#" class="store">
-                        <div class="store_block">
-                            <img src="/assets/img/Magnit_icon.png" alt="Magnit" class="img_icon">
-                            <p class="title_store">
-                                Магнит
-                            </p>
-                        </div>
-                    </a>
-                    
-                </div>
+                    <?php endforeach;?>
+                <?php endif;?>
 
             </div>
         </div>
