@@ -72,7 +72,7 @@
                 <?php else: ?>
                     <?php foreach ($stores as $key => $store): ?>
                         <div class="col-4 block">
-                            <a href="#" class="store">
+                            <a href="/pages/storePage.php?store_id=<?=$store['id'];?>" class="store">
                                 <div class="store_block">
                                     <img src="/assets/img/Magnit_icon.png" alt="<?=$store['name'];?>" class="img_icon">
                                     <p class="title_store">
