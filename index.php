@@ -66,8 +66,8 @@
             <!-- Div Stores -->
             <div class="stores row">
                 <?php if (empty($stores)): ?>
-                    <div class="col-12">
-                        <span>Ничего не найдено.</span>
+                    <div class="col-12 err_block">
+                        <span class="text_err">Ничего не найдено.</span>
                     </div>
                 <?php else: ?>
                     <?php foreach ($stores as $key => $store): ?>

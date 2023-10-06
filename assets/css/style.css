@@ -71,6 +71,14 @@ div.section h3 {
     color: black;
 }
 
+.err_block {
+    margin-top: 20px;
+}
+
+.text_err {
+    font-size: 32px;
+}
+
 .store_block {
     background: #D4EBF9;
     max-width: 350px;

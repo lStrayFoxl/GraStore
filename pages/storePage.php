@@ -2,6 +2,14 @@
     session_start();
 
     include("../path.php");
+    include("../app/database/db.php");
+
+    if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['store_id'])) {
+
+        $id = trim($_GET['store_id']);
+        $store = selectOne("store", ['id' => $id]);
+
+    }
 
 ?>
 
@@ -34,7 +42,7 @@
                 <a href="/" class="btn btn-big btn_back">На главную</a>
             </div>
             <div class="content_block">
-                <h3 class="article">Магнит</h3>
+                <h3 class="article"><?=$store["name"];?></h3>
 
                 <div class="descript">
                     <div class="row">
@@ -46,14 +54,7 @@
                         
                         <div class="descript_text col-8">
                             <p class="text_parag">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices lobortis mollis. Vivamus in ipsum 
-                                id nisl tempor pellentesque. Integer rhoncus tortor a metus ultricies varius. Cras euismod ornare diam, 
-                                sed egestas nulla scelerisque eu. Maecenas cursus nulla id mattis porttitor. Ut hendrerit, justo quis 
-                                efficitur venenatis, arcu sapien finibus erat, nec efficitur erat est ac justo. Sed a velit eu quam 
-                                faucibus placerat. Curabitur vitae sodales sapien. Integer suscipit tortor et purus pharetra ultricies. 
-                                Integer posuere auctor risus non consectetur. Donec aliquam eu dui a facilisis. Proin nec sem elementum, 
-                                tempus lorem vel, mollis ante. Nullam sagittis, diam ut facilisis pulvinar, purus nisl iaculis ligula, sit 
-                                amet semper nunc lacus et nibh. Praesent sit amet efficitur ipsum. Etiam in interdum nunc.
+                                <?=$store["description"];?>
                             </p>
                         </div>
                         
