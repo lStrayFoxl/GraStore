@@ -2,7 +2,7 @@
     session_start();
 
     include("../../../path.php");
-    include("../../controllers/comment.php");
+    include("../../controllers/comment_admin.php");
 ?>
 
 <!doctype html>

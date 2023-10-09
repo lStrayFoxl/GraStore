@@ -2,7 +2,7 @@
     session_start();
 
     include("../path.php");
-    include("../app/database/db.php");
+    include("../app/controllers/comment.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['store_id'])) {
 
@@ -67,9 +67,10 @@
                         <h3 class="article_block">Оставить отзыв</h3>
 
                         <div class="form_block">
-                            <form action="#" method="post">
+                            <form action="storePage.php" method="post">
+                                <input type="hidden" name="id_store" value="<?=$store["id"];?>">
                                 <div class="mb-3">
-                                    <textarea class="form-control form-text" rows="5"></textarea>
+                                    <textarea class="form-control form-text" rows="5" name="comment"></textarea>
                                     
                                 </div>
                                  <button type="submit" class="btn btn-big comment-btn" name="btnComment">
