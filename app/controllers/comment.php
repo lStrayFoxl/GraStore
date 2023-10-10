@@ -12,7 +12,7 @@
     // Код создания комментария
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnComment'])) {
 
-        $id = trim($_POST["id_store"]);
+        $id_store = trim($_POST["id_store"]);
         $comment = trim($_POST["comment"]);
 
     
@@ -23,13 +23,12 @@
         }else {
             $comment = [
                 "id_user" => $_SESSION['id'],
-                "id_store" => $id,
+                "id_store" => $id_store,
                 "comment" => $comment,
             ];
 
-            $id = insert("comments", $comment);
-            $topic = selectOne("comments", ['id' => $id]);
-            header('location: ' . 'storePage.php?store_id=' . $id);
+            $id_com = insert("comments", $comment);
+            header('location: ' . 'storePage.php?store_id=' . $comment["id_store"]);
         }
 
     }

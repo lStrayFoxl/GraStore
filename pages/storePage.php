@@ -9,6 +9,8 @@
         $id = trim($_GET['store_id']);
         $store = selectOne("store", ['id' => $id]);
 
+        $comments = selectAll("comments", ['id_store' => $id]);
+
     }
 
 ?>
@@ -85,39 +87,14 @@
                 <div class="comments_store">
                     <div class="comment_container">
                         <h3 class="article_block">Отзывы</h3>
-
-                        <div class="comment_block">
-                            <div class="user_name">Имя пользователя</div>
-                            <p class="text_comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices 
-                                lobortis mollis. Vivamus in ipsum id nisl tempor pellentesque. Integer rhoncus tortor a metus 
-                                ultricies varius. Cras euismod ornare diam, sed egestas nulla scelerisque eu. Maecenas cursus 
-                                nulla id mattis porttitor. Ut hendrerit, justo quis efficitur venenatis, arcu sapien finibus erat, 
-                                nec efficitur erat est ac justo.
-                            </p>
-                        </div>
-
-                        <div class="comment_block">
-                            <div class="user_name">Имя пользователя</div>
-                            <p class="text_comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices 
-                                lobortis mollis. Vivamus in ipsum id nisl tempor pellentesque. Integer rhoncus tortor a metus 
-                                ultricies varius. Cras euismod ornare diam, sed egestas nulla scelerisque eu. Maecenas cursus 
-                                nulla id mattis porttitor. Ut hendrerit, justo quis efficitur venenatis, arcu sapien finibus erat, 
-                                nec efficitur erat est ac justo.
-                            </p>
-                        </div>
-
-                        <div class="comment_block">
-                            <div class="user_name">Имя пользователя</div>
-                            <p class="text_comment">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ultrices 
-                                lobortis mollis. Vivamus in ipsum id nisl tempor pellentesque. Integer rhoncus tortor a metus 
-                                ultricies varius. Cras euismod ornare diam, sed egestas nulla scelerisque eu. Maecenas cursus 
-                                nulla id mattis porttitor. Ut hendrerit, justo quis efficitur venenatis, arcu sapien finibus erat, 
-                                nec efficitur erat est ac justo.
-                            </p>
-                        </div>
+                        <?php foreach ($comments as $comment):?>
+                            <div class="comment_block">
+                                <div class="user_name"><?=$comment['id_user'];?></div>
+                                <p class="text_comment">
+                                    <?=$comment['comment'];?>
+                                </p>
+                            </div>
+                        <?php endforeach;?>
                     </div>
                 </div>
             </div>
