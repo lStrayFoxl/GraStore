@@ -194,3 +194,16 @@ function searchInComment($term, $table) {
   return $query->fetchAll();
 }
   
+// Выборка комментариев с польователем
+function selectCommentsFromWithUsers($table1, $table2, $id_store) {
+  global $dbh;
+
+  $sql = "SELECT c.*, u.login FROM $table1 AS c JOIN $table2 AS u ON c.id_user = u.id WHERE c.id_store = $id_store";
+
+  $query = $dbh->prepare($sql);
+  $query->execute();
+
+  dbCheckError($query);
+
+  return $query->fetchAll();
+}

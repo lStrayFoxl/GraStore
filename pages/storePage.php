@@ -9,8 +9,8 @@
         $id = trim($_GET['store_id']);
         $store = selectOne("store", ['id' => $id]);
 
-        $comments = selectAll("comments", ['id_store' => $id]);
-
+        // $comments = selectAll("comments", ['id_store' => $id]);
+        $comments = selectCommentsFromWithUsers("comments", "users", $id);
     }
 
 ?>
@@ -89,7 +89,7 @@
                         <h3 class="article_block">Отзывы</h3>
                         <?php foreach ($comments as $comment):?>
                             <div class="comment_block">
-                                <div class="user_name"><?=$comment['id_user'];?></div>
+                                <div class="user_name"><?=$comment['login'];?></div>
                                 <p class="text_comment">
                                     <?=$comment['comment'];?>
                                 </p>
