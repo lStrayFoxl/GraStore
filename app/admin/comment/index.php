@@ -86,7 +86,11 @@
                                 </div>
 
                                 <div class="col-7">
-                                    <span><?=$comment['comment'];?></span>
+                                    <?php if (strlen($comment['comment']) < 30): ?>
+                                        <span><?=$comment['comment'];?></span>
+                                    <?php else: ?>
+                                        <span><?=mb_substr($comment['comment'], 0, 30, 'UTF-8') . "...";?></span>
+                                    <?php endif; ?>
                                 </div>
 
                                 <div class="col-2 center_cont">

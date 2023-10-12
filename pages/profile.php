@@ -77,10 +77,12 @@
                             <a class="btn btn-big profile-btn" name="btnPhoto">
                                 New Photo
                             </a>
-
-                            <a href="<?=BASE_URL . "/app/admin/store/index.php";?>" class="btn btn-big profile-btn" name="btnAdmin">
-                                Admin Panel
-                            </a>
+                            <?php if($_SESSION["admin"] == 1): ?>
+                                <a href="<?=BASE_URL . "/app/admin/store/index.php";?>" class="btn btn-big profile-btn" name="btnAdmin">
+                                    Admin Panel
+                                </a>
+                            <?php endif; ?>
+                            
                         </div>
                     </div>
                 </div>
