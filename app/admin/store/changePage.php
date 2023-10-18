@@ -51,7 +51,7 @@
                         <!-- Вывод ошибок с массива -->
                         <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
-                        <form action="addPage.php" method="post" enctype="multipart/form-data">
+                        <form action="changePage.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="id" value="<?=$id;?>">
                             <div class="col mb-4">
                                 <input value="<?=$title; ?>" name="title" type="text" class="form-control" placeholder="Название магазина" aria-label="Название магазина">

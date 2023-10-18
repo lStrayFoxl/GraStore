@@ -11,41 +11,6 @@
     // Код создания магазина
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnAddStore'])) {
         
-        if (!empty($_FILES['img']['name'])) {
-            $imgName = time() . "_" .  $_FILES['img']['name'];
-            $fileTmpName = $_FILES['img']['tmp_name'];
-            $fileType = $_FILES['img']['type'];
-            $destination = ROOT_PATH . "\assets\img\store\\" . $imgName;
-            
-            if (strpos($fileType, 'image') === false) {
-                array_push($errMsg, "Подгружаемый файл не является изображением!");
-                // die("Можно загружать только картинки");
-        
-            }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-                // die("Размер загружаймого файла не может превышать 500КБ");
-        
-            }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-                // die("Разрешение загружаймого изображения не может превышать 800*450");
-        
-            }else{
-                $result = move_uploaded_file($fileTmpName, $destination);
-        
-                if ($result) {
-                    $_POST['img'] = $imgName;
-                }else{
-                    array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                    // $errMsg = 'Ошибка загрузки изображения на сервер.';
-                }
-            }
-        
-        }else{
-            array_push($errMsg, "Ошибка получения картинки.");
-            // $errMsg = 'Ошибка получения картинки.';
-        }
-        // include("../../app/helps/validationImage.php");
-
         $title = trim($_POST["title"]);
         $descript = trim($_POST["description"]);
 
@@ -55,15 +20,45 @@
         }elseif(mb_strlen($title, 'UTF8') <= 2) {
             array_push($errMsg, "Название должно быть больше 2-ми символов.");
         }else {
-            $store = [
-                "name" => $title,
-                "description" => $descript,
-                "photo" => $_POST['img']
-            ];
+            if (!empty($_FILES['img']['name'])) {
+                $imgName = time() . "_" .  $_FILES['img']['name'];
+                $fileTmpName = $_FILES['img']['tmp_name'];
+                $fileType = $_FILES['img']['type'];
+                $destination = ROOT_PATH . "\assets\img\store\\" . $imgName;
+                
+                if (strpos($fileType, 'image') === false) {
+                    array_push($errMsg, "Подгружаемый файл не является изображением!");
+            
+                }elseif($_FILES['img']['size'] > (1000 * 1024)){
+                    array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
+            
+                }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
+                    array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
+            
+                }else{
+                    $result = move_uploaded_file($fileTmpName, $destination);
+            
+                    if ($result) {
+                        $_POST['img'] = $imgName;
+                    }else{
+                        array_push($errMsg, "Ошибка загрузки изображения на сервер.");
+                    }
 
-            $id = insert("store", $store);
-            $topic = selectOne("store", ['id' => $id]);
-            header('location: ' . 'index.php');
+                    $store = [
+                        "name" => $title,
+                        "description" => $descript,
+                        "photo" => $_POST['img']
+                    ];
+        
+                    $id = insert("store", $store);
+                    $topic = selectOne("store", ['id' => $id]);
+                    header('location: ' . 'index.php');
+                }
+            
+            }else{
+                array_push($errMsg, "Ошибка получения картинки.");
+            }
+            
         }
 
     }
@@ -95,20 +90,56 @@
         $title = trim($_POST["title"]);
         $descript = trim($_POST["description"]);
 
-    
         if ($title === '' || $descript === '') {
             array_push($errMsg, "Не все поля заполнены!");
         }elseif(mb_strlen($title, 'UTF8') <= 2) {
             array_push($errMsg, "Название должно быть больше 2-ми символов.");
-        }else {
+        }elseif($_FILES['img']['name'] == null) {
             $store = [
                 "name" => $title,
-                "description" => $descript,
-                "photo" => "тут тип изменён путь"
+                "description" => $descript
             ];
 
             $id = update("store", $id, $store);
             header('location: ' . 'index.php');
+        }else {
+            if (!empty($_FILES['img']['name'])) {
+                $imgName = time() . "_" .  $_FILES['img']['name'];
+                $fileTmpName = $_FILES['img']['tmp_name'];
+                $fileType = $_FILES['img']['type'];
+                $destination = ROOT_PATH . "\assets\img\store\\" . $imgName;
+                
+                if (strpos($fileType, 'image') === false) {
+                    array_push($errMsg, "Подгружаемый файл не является изображением!");
+            
+                }elseif($_FILES['img']['size'] > (1000 * 1024)){
+                    array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
+            
+                }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
+                    array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
+            
+                }else{
+                    $result = move_uploaded_file($fileTmpName, $destination);
+            
+                    if ($result) {
+                        $_POST['img'] = $imgName;
+                    }else{
+                        array_push($errMsg, "Ошибка загрузки изображения на сервер.");
+                    }
+
+                    $store = [
+                        "name" => $title,
+                        "description" => $descript,
+                        "photo" => $_POST['img']
+                    ];
+        
+                    $id = update("store", $id, $store);
+                    header('location: ' . 'index.php');
+                }
+            
+            }else{
+                array_push($errMsg, "Ошибка получения картинки.");
+            }
         }
 
     }
