@@ -74,7 +74,7 @@
                         <div class="col-4 block">
                             <a href="/pages/storePage.php?store_id=<?=$store['id'];?>" class="store">
                                 <div class="store_block">
-                                    <img src="/assets/img/Magnit_icon.png" alt="<?=$store['name'];?>" class="img_icon">
+                                    <img src=<?= "/assets/img/store/" . $store['photo'];?> alt="<?=$store['name'];?>" class="img_icon">
                                     <p class="title_store">
                                         <?=$store['name'];?>
                                     </p>

@@ -50,7 +50,7 @@
                     <div class="row">
                         <div class="foto_store col-4">
                             <div class="img_block">
-                                <img src="../assets/img/Magnit_icon.png" alt="" class="img_store">
+                                <img src="<?= "../assets/img/store/" . $store['photo'];?>" alt="<?=$store['name'];?>" class="img_store">
                             </div>
                         </div>
                         
@@ -87,14 +87,21 @@
                 <div class="comments_store">
                     <div class="comment_container">
                         <h3 class="article_block">Отзывы</h3>
-                        <?php foreach ($comments as $comment):?>
-                            <div class="comment_block">
-                                <div class="user_name"><?=$comment['login'];?></div>
-                                <p class="text_comment">
-                                    <?=$comment['comment'];?>
-                                </p>
+                        <?php if (empty($comments)): ?>
+                            <div class="col-12 err_block">
+                                <span class="text_err">Отзывов пока нет.</span>
                             </div>
-                        <?php endforeach;?>
+                        <?php else: ?>
+                            <?php foreach ($comments as $comment):?>
+                                <div class="comment_block">
+                                    <div class="user_name"><?=$comment['login'];?></div>
+                                    <p class="text_comment">
+                                        <?=$comment['comment'];?>
+                                    </p>
+                                </div>
+                            <?php endforeach;?>
+                        <?php endif;?>
+                        
                     </div>
                 </div>
             </div>
