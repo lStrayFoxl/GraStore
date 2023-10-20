@@ -82,3 +82,19 @@
 .form-check {
     margin-bottom: 20px !important;
 }
+
+/* ErrorMsg */
+.err{
+    padding: 1rem;
+    color: #A52A2A;
+}
+
+.err ul{
+    padding-left: 0px;
+}
+  
+.err ul li{
+    list-style-type: none;
+    color: red;
+    font-weight: 500;
+}

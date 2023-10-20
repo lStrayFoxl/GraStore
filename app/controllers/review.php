@@ -1,4 +1,5 @@
 <?php
+    session_start();
     include("../../path.php");
     include("../database/db.php");
 
@@ -10,6 +11,7 @@
         }
         else{
             $params = [
+                "userid" => $_SESSION['id'],
                 "comment" => $comment
             ];
 

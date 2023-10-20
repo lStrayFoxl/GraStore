@@ -49,6 +49,13 @@
                     <div class="row add-post">
                         <div class="mb-12 col-12 col-md-12 err">
                         <!-- Вывод ошибок с массива -->
+                        <?php if (count($errMsg) > 0): ?>
+                            <ul>
+                                <?php foreach ($errMsg as $error): ?>
+                                    <li><?=$error?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
                         <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
                         <form action="changePage.php" method="post" enctype="multipart/form-data">

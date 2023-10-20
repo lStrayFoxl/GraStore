@@ -49,6 +49,13 @@
                     <div class="row add-post">
                         <div class="mb-12 col-12 col-md-12 err">
                         <!-- Вывод ошибок с массива -->
+                        <?php if (count($errMsg) > 0): ?>
+                            <ul>
+                                <?php foreach ($errMsg as $error): ?>
+                                    <li><?=$error?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endif; ?>
                         <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
                         <form action="changePage.php" method="post" enctype="multipart/form-data">
@@ -61,7 +68,7 @@
                                 <textarea name="comment" class="form-control" id="editor" rows="6"><?=$comment; ?></textarea>
                             </div>
 
-                            <div class="col col-6">
+                            <div class="col col-6 mt-4">
                                 <button name="btnChangeReview" class="btn back_btn" type="submit">Изменить</button>
                             </div>
                         </form>
