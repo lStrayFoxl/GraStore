@@ -74,7 +74,7 @@
                                 </button>
                             </form>
 
-                            <a class="btn btn-big profile-btn" name="btnPhoto">
+                            <a class="btn btn-big profile-btn" name="btnPhoto" id="photoMod">
                                 New Photo
                             </a>
                             <?php if($_SESSION["admin"] == 1): ?>

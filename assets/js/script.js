@@ -3,7 +3,7 @@
 // Enter form modal variables
 let modalEnter = document.getElementById('modalEnter');
 let btnEnter = document.getElementById("enter");
-let btnEnt = document.getElementById("ent")
+let btnEnt = document.getElementById("ent");
 
 // Registration form modal variables
 let modalReg = document.getElementById('modalReg');
