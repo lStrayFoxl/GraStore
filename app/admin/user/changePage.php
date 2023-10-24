@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="row title-table">
-                        <h2>Добавление пользователя</h2>
+                        <h2>Изменение данных пользователя</h2>
                     </div>
 
                     <div class="row add-post">

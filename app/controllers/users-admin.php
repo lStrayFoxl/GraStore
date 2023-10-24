@@ -105,27 +105,122 @@
             if($pass1 === $pass2) {
                 $pass1 = password_hash($pass1, PASSWORD_DEFAULT);
 
-                $user = [
-                    "login" => $login,
-                    "password" => $pass1,
-                    "admin" => $admin,
-                    "photo" => "тут тип путь"
-                ];
+                if($_FILES['img']['name'] == null) {
+                    $user = [
+                        "login" => $login,
+                        "password" => $pass1,
+                        "admin" => $admin,
+                    ];
+    
+                    $id = update("users", $id, $user);
+                    header('location: ' . 'index.php');
+                }else {
+                    if (!empty($_FILES['img']['name'])) {
+                        $imgName = time() . "_" .  $_FILES['img']['name'];
+                        $fileTmpName = $_FILES['img']['tmp_name'];
+                        $fileType = $_FILES['img']['type'];
+                        $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
+                        
+                        if (strpos($fileType, 'image') === false) {
+                            array_push($errMsg, "Подгружаемый файл не является изображением!");
+                    
+                        }elseif($_FILES['img']['size'] > (1000 * 1024)){
+                            array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
+                    
+                        }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
+                            array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
+                    
+                        }else{
+                            $result = move_uploaded_file($fileTmpName, $destination);
+                    
+                            if ($result) {
+                                $_POST['img'] = $imgName;
+                            }else{
+                                array_push($errMsg, "Ошибка загрузки изображения на сервер.");
+                            }
+        
+                            $pass = password_hash($pass, PASSWORD_DEFAULT);
+        
+                            $user = [
+                                "login" => $login,
+                                "password" => $pass1,
+                                "admin" => $admin,
+                                "photo" => $_POST['img']
+                            ];
+                
+                            $id = update("users", $id, $user);
+                            $topic = selectOne("users", ['id' => $id]);
+                            header('location: ' . 'index.php');
+                        }
+                    
+                    }else{
+                        array_push($errMsg, "Ошибка получения картинки.");
+                    }
+                }
 
-                $id = update("users", $id, $user);
-                header('location: ' . 'index.php');
+                // $user = [
+                //     "login" => $login,
+                //     "password" => $pass1,
+                //     "admin" => $admin,
+                //     "photo" => "тут тип путь"
+                // ];
+
+                // $id = update("users", $id, $user);
+                // header('location: ' . 'index.php');
             }else {
                 array_push($errMsg, "Пароли не совпадают.");
             }
         }else {
-            $user = [
-                "login" => $login,
-                "admin" => $admin,
-                "photo" => "тут тип путь"
-            ];
-
-            $id = update("users", $id, $user);
-            header('location: ' . 'index.php');
+            if($_FILES['img']['name'] == null) {
+                $user = [
+                    "login" => $login,
+                    "admin" => $admin,
+                ];
+    
+                $id = update("users", $id, $user);
+                header('location: ' . 'index.php');
+            }else {
+                if (!empty($_FILES['img']['name'])) {
+                    $imgName = time() . "_" .  $_FILES['img']['name'];
+                    $fileTmpName = $_FILES['img']['tmp_name'];
+                    $fileType = $_FILES['img']['type'];
+                    $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
+                    
+                    if (strpos($fileType, 'image') === false) {
+                        array_push($errMsg, "Подгружаемый файл не является изображением!");
+                
+                    }elseif($_FILES['img']['size'] > (1000 * 1024)){
+                        array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
+                
+                    }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
+                        array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
+                
+                    }else{
+                        $result = move_uploaded_file($fileTmpName, $destination);
+                
+                        if ($result) {
+                            $_POST['img'] = $imgName;
+                        }else{
+                            array_push($errMsg, "Ошибка загрузки изображения на сервер.");
+                        }
+    
+                        $pass = password_hash($pass, PASSWORD_DEFAULT);
+    
+                        $user = [
+                            "login" => $login,
+                            "admin" => $admin,
+                            "photo" => $_POST['img']
+                        ];
+            
+                        $id = update("users", $id, $user);
+                        $topic = selectOne("users", ['id' => $id]);
+                        header('location: ' . 'index.php');
+                    }
+                
+                }else{
+                    array_push($errMsg, "Ошибка получения картинки.");
+                }
+            }
         }
 
     }
