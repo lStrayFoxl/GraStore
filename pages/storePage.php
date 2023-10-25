@@ -2,7 +2,13 @@
     session_start();
 
     include("../path.php");
-    include("../app/controllers/comment.php");
+    
+    if (!$_SESSION) {
+        include("../app/database/db.php");
+    }else {
+        include("../app/controllers/comment.php");
+    }
+    // include("../app/controllers/comment.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['store_id'])) {
 
@@ -64,25 +70,27 @@
                     
                 </div>
 
-                <div class="comment_form">
-                    <div class="comment_container">
-                        <h3 class="article_block">Оставить отзыв</h3>
+                <?php if($_SESSION): ?>
+                    <div class="comment_form">
+                        <div class="comment_container">
+                            <h3 class="article_block">Оставить отзыв</h3>
 
-                        <div class="form_block">
-                            <form action="storePage.php" method="post">
-                                <input type="hidden" name="id_store" value="<?=$store["id"];?>">
-                                <div class="mb-3">
-                                    <textarea class="form-control form-text" rows="5" name="comment"></textarea>
-                                    
-                                </div>
-                                 <button type="submit" class="btn btn-big comment-btn" name="btnComment">
-                                    Отправить
-                                </button>
-                            </form>
+                            <div class="form_block">
+                                <form action="storePage.php" method="post">
+                                    <input type="hidden" name="id_store" value="<?=$store["id"];?>">
+                                    <div class="mb-3">
+                                        <textarea class="form-control form-text" rows="5" name="comment"></textarea>
+                                        
+                                    </div>
+                                    <button type="submit" class="btn btn-big comment-btn" name="btnComment">
+                                        Отправить
+                                    </button>
+                                </form>
+                            </div>
                         </div>
+                        
                     </div>
-                    
-                </div>
+                <?php endif;?>
 
                 <div class="comments_store">
                     <div class="comment_container">

@@ -1,7 +1,7 @@
 <?php
     include("../app/database/db.php");
     if (!$_SESSION) {
-        header('location: ' . BASE_URL . '/log.php');
+        header('location: ' . BASE_URL . '/index.php');
     }
 
     $errMsg = [];

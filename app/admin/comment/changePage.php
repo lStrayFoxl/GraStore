@@ -70,12 +70,8 @@
                                 <label for="editor" class="form-label">Комментарий</label>
                                 <textarea name="comment" class="form-control" id="editor" rows="6"><?=$comment; ?></textarea>
                             </div>
-                            <div class="input-group col mb-4 mt-4">
-                                <input name="img" type="file" class="form-control" id="inputGroupFile02">
-                                <label class="input-group-text" for="inputGroupFile02">Upload</label>
-                            </div>
 
-                            <div class="col col-6">
+                            <div class="col col-6 mt-4">
                                 <button name="btnChangeComment" class="btn back_btn" type="submit">Изменить</button>
                             </div>
                         </form>
