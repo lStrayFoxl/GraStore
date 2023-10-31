@@ -11,7 +11,7 @@
         $_SESSION['admin'] = $array['admin'];
     
         if($_SESSION['admin']){
-            header('location: ' . BASE_URL . '/admin/posts/index.php');
+            header('location: ' . BASE_URL . '/app/admin/store/index.php');
         }else {
             header('location: ' . BASE_URL);
         }

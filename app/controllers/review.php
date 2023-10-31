@@ -3,6 +3,10 @@
     include("../../path.php");
     include("../database/db.php");
 
+    if (!$_SESSION) {
+        header('location: ' . BASE_URL . '/index.php');
+    }
+
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnRev'])) {
         $comment = trim($_POST["comment"]);
 
