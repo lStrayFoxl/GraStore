@@ -4,6 +4,8 @@
     include("../../path.php");
     include("../database/db.php");
 
+    $errMsg = [];
+
     // Function user enter
     function AuthUser($array) {
         $_SESSION['id'] = $array['id'];
@@ -86,4 +88,48 @@
         session_destroy();
 
         header('location: ' . BASE_URL);
+    }   
+
+    print_r($_SESSION);
+    print_r($_FILES);
+    
+    if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['changePhoto'])) {
+        $id = $_SESSION['id'];
+
+        if (!empty($_FILES['img']['name'])) {
+            $imgName = time() . "_" .  $_FILES['img']['name'];
+            $fileTmpName = $_FILES['img']['tmp_name'];
+            $fileType = $_FILES['img']['type'];
+            $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
+            
+            if (strpos($fileType, 'image') === false) {
+                array_push($errMsg, "Подгружаемый файл не является изображением!");
+        
+            }elseif($_FILES['img']['size'] > (1000 * 1024)){
+                array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
+        
+            }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
+                array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
+        
+            }else{
+                $result = move_uploaded_file($fileTmpName, $destination);
+        
+                if ($result) {
+                    $_POST['img'] = $imgName;
+                }else{
+                    array_push($errMsg, "Ошибка загрузки изображения на сервер.");
+                }
+
+                $user = [
+                    "photo" => $_POST['img'],
+                ];
+    
+                $id = update("users", $id, $user);
+                header('location: ' . BASE_URL . "/pages/profile.php");
+            }
+        
+        }else{
+            array_push($errMsg, "Ошибка получения картинки.");
+        }
+
     }

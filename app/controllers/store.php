@@ -1,5 +1,6 @@
 <?php
     include("../../database/db.php");
+    include("controllers.php");
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/log.php');
     }
@@ -49,10 +50,8 @@
                         "description" => $descript,
                         "photo" => $_POST['img']
                     ];
-        
-                    $id = insert("store", $store);
-                    $topic = selectOne("store", ['id' => $id]);
-                    header('location: ' . 'index.php');
+
+                    StoreControll::create("store", $store);
                 }
             
             }else{
@@ -68,8 +67,7 @@
 
         $id = trim($_GET['delete_id']);
 
-        delete("store", $id);
-        header('location: ' . 'index.php');
+        StoreControll::delete("store", $id);
 
     }
 
@@ -100,8 +98,7 @@
                 "description" => $descript
             ];
 
-            $id = update("store", $id, $store);
-            header('location: ' . 'index.php');
+            StoreControll::change("store", $id, $store);
         }else {
             if (!empty($_FILES['img']['name'])) {
                 $imgName = time() . "_" .  $_FILES['img']['name'];
@@ -132,9 +129,8 @@
                         "description" => $descript,
                         "photo" => $_POST['img']
                     ];
-        
-                    $id = update("store", $id, $store);
-                    header('location: ' . 'index.php');
+                    
+                    StoreControll::change("store", $id, $store);
                 }
             
             }else{

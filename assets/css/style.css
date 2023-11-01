@@ -262,7 +262,6 @@ div.section h3 {
 
 .modal_content {
     background-color: white;
-    /* margin: 5% auto 0; */
     margin-top: 5%;
     padding: 23px 21px;
     border: 2px solid #F6D64F;
@@ -368,6 +367,12 @@ div.section h3 {
 .profile-btn:hover {
     background: #F5F0DA;
     border: 1px solid black;
+}
+
+.change_photo {
+    width: 700px;
+    height: 250px;
+    margin-top: 10%;
 }
 
 /* Store Page */
