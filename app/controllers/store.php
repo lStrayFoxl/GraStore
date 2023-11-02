@@ -1,6 +1,7 @@
 <?php
     include("../../database/db.php");
     include("controllers.php");
+    include("../../helps/validationImg.php");
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/log.php');
     }
@@ -22,29 +23,11 @@
             array_push($errMsg, "Название должно быть больше 2-ми символов.");
         }else {
             if (!empty($_FILES['img']['name'])) {
-                $imgName = time() . "_" .  $_FILES['img']['name'];
-                $fileTmpName = $_FILES['img']['tmp_name'];
-                $fileType = $_FILES['img']['type'];
-                $destination = ROOT_PATH . "\assets\img\store\\" . $imgName;
-                
-                if (strpos($fileType, 'image') === false) {
-                    array_push($errMsg, "Подгружаемый файл не является изображением!");
-            
-                }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                    array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-            
-                }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                    array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-            
-                }else{
-                    $result = move_uploaded_file($fileTmpName, $destination);
-            
-                    if ($result) {
-                        $_POST['img'] = $imgName;
-                    }else{
-                        array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                    }
+                $imgStore = new StoreImg($_FILES);
 
+                if ($imgStore->validation() === false) {
+                    $imgStore->getServer() === false ? "" : array_push($errMsg, $imgStore->getServer());
+                    
                     $store = [
                         "name" => $title,
                         "description" => $descript,
@@ -52,6 +35,8 @@
                     ];
 
                     StoreControll::create("store", $store);
+                }else {
+                    array_push($errMsg, $imgStore->validation());
                 }
             
             }else{
@@ -101,29 +86,11 @@
             StoreControll::change("store", $id, $store);
         }else {
             if (!empty($_FILES['img']['name'])) {
-                $imgName = time() . "_" .  $_FILES['img']['name'];
-                $fileTmpName = $_FILES['img']['tmp_name'];
-                $fileType = $_FILES['img']['type'];
-                $destination = ROOT_PATH . "\assets\img\store\\" . $imgName;
-                
-                if (strpos($fileType, 'image') === false) {
-                    array_push($errMsg, "Подгружаемый файл не является изображением!");
-            
-                }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                    array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-            
-                }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                    array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-            
-                }else{
-                    $result = move_uploaded_file($fileTmpName, $destination);
-            
-                    if ($result) {
-                        $_POST['img'] = $imgName;
-                    }else{
-                        array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                    }
+                $imgStore = new StoreImg($_FILES);
 
+                if ($imgStore->validation() === false) {
+                    $imgStore->getServer() === false ? "" : array_push($errMsg, $imgStore->getServer());
+                    
                     $store = [
                         "name" => $title,
                         "description" => $descript,
@@ -131,8 +98,10 @@
                     ];
                     
                     StoreControll::change("store", $id, $store);
+                }else {
+                    array_push($errMsg, $imgStore->validation());
                 }
-            
+                
             }else{
                 array_push($errMsg, "Ошибка получения картинки.");
             }
