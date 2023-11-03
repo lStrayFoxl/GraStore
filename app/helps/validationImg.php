@@ -18,7 +18,15 @@
 
         abstract public function validation();
 
-        abstract public function getServer();
+        final public function getServer() {
+            $result = move_uploaded_file($this->fileTmpName, $this->destination);
+            if ($result) {
+                $_POST['img'] = $this->imgName;
+                return false;
+            }else{
+                return "Ошибка загрузки изображения на сервер.";
+            }
+        }
 
     }
 
@@ -40,14 +48,4 @@
             }
         }
 
-        public function getServer() 
-        {
-            $result = move_uploaded_file($this->fileTmpName, $this->destination);
-            if ($result) {
-                $_POST['img'] = $this->imgName;
-                return false;
-            }else{
-                return "Ошибка загрузки изображения на сервер.";
-            }
-        }
     }
