@@ -29,3 +29,41 @@
         }
 
     }
+
+    class UserData extends Data {
+        public $id;
+        public $login;
+        public $pass;
+        public $pass2;
+        public $admin;
+
+        public function __construct($array) {
+            $this->id = isset($array["id"]) ? trim($array["id"]) : "";
+            $this->login = trim($array["login"]);
+            $this->pass = isset($array['password']) ? trim($_POST["password"]) : trim($_POST["password1"]);
+            $this->pass2 = isset($array['password2']) ? trim($_POST["password2"]) : "";
+            $this->admin = isset($array['admin']) ? 1 : 0;
+        }
+
+        public function validation() {
+            if ($this->login === '' || $this->pass === '') {
+                return "Не все поля заполнены!";
+            }elseif(mb_strlen($this->login, 'UTF8') <= 2) {
+                return "Логин должно быть больше 2-ми символов.";
+            }else {
+                return false;
+            }
+        }
+
+        // TODO: подумать как обойтись без неё 
+        // в проверке ползователя на изменении
+        public function validationChange() {
+            if ($this->login === '') {
+                return "Не все поля заполнены!";
+            }elseif(mb_strlen($this->login, 'UTF8') <= 2) {
+                return "Логин должно быть больше 2-ми символов.";
+            }else {
+                return false;
+            }
+        }
+    }

@@ -12,7 +12,6 @@
             $this->imgName = time() . "_" .  $array['img']['name'];
             $this->fileTmpName = $array['img']['tmp_name'];
             $this->fileType = $array['img']['type'];
-            $this->destination = ROOT_PATH . "\assets\img\store\\" . $this->imgName;
             $this->size = $array['img']['size'];
         }
 
@@ -31,7 +30,37 @@
     }
 
     class StoreImg extends Img 
-    {
+    {   
+        public function __construct($array) {
+            parent::__construct($array);
+            $this->destination = ROOT_PATH . "\assets\img\store\\" . $this->imgName;
+        }
+
+        public function validation()
+        {
+            if (strpos($this->fileType, 'image') === false) {
+                return "Подгружаемый файл не является изображением!";
+        
+            }elseif($this->size > (1000 * 1024)){
+                return "Размер загружаймого файла не может превышать 500КБ.";
+        
+            }elseif(getimagesize($this->fileTmpName)[0] > 1600 || getimagesize($this->fileTmpName)[1] > 1000){
+                return "Разрешение загружаймого изображения не может превышать 1600*1000.";
+        
+            }else{
+                return false;
+            }
+        }
+
+    }
+
+    class UserImg extends Img 
+    {   
+        public function __construct($array) {
+            parent::__construct($array);
+            $this->destination = ROOT_PATH . "\assets\img\avatar\\" . $this->imgName;
+        }
+
         public function validation()
         {
             if (strpos($this->fileType, 'image') === false) {

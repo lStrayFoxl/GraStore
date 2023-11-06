@@ -1,5 +1,8 @@
 <?php
     include("../../database/db.php");
+    include("controllers.php");
+    include("../../helps/validationImg.php");
+    include("../../helps/validationData.php");
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/log.php');
     }
@@ -11,58 +14,33 @@
     // Код создания пользователя
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnAddUser'])) {
 
-        // include("../../app/helps/validationImage.php");
+        $user = new UserData($_POST);
 
-        $login = trim($_POST["login"]);
-        $pass = trim($_POST["password"]);
-        $admin = isset($_POST['admin']) ? 1 : 0;
-
-        if ($login === '' || $pass === '') {
-            array_push($errMsg, "Не все поля заполнены!");
-        }elseif(mb_strlen($login, 'UTF8') <= 2) {
-            array_push($errMsg, "Логин должно быть больше 2-ми символов.");
-        }else {
+        if ($user->validation() === false) {
             if (!empty($_FILES['img']['name'])) {
-                $imgName = time() . "_" .  $_FILES['img']['name'];
-                $fileTmpName = $_FILES['img']['tmp_name'];
-                $fileType = $_FILES['img']['type'];
-                $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
-                
-                if (strpos($fileType, 'image') === false) {
-                    array_push($errMsg, "Подгружаемый файл не является изображением!");
-            
-                }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                    array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-            
-                }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                    array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-            
-                }else{
-                    $result = move_uploaded_file($fileTmpName, $destination);
-            
-                    if ($result) {
-                        $_POST['img'] = $imgName;
-                    }else{
-                        array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                    }
+                $imgUser = new UserImg($_FILES);
 
-                    $pass = password_hash($pass, PASSWORD_DEFAULT);
+                if ($imgUser->validation() === false) {
+                    $imgUser->getServer() === false ? "" : array_push($errMsg, $imgStore->getServer());
+                    $pass = password_hash($user->pass, PASSWORD_DEFAULT);
 
                     $user = [
-                        "login" => $login,
+                        "login" => $user->login,
                         "password" => $pass,
-                        "admin" => $admin,
+                        "admin" => $user->admin,
                         "photo" => $_POST['img']
                     ];
-        
-                    $id = insert("users", $user);
-                    $topic = selectOne("users", ['id' => $id]);
-                    header('location: ' . 'index.php');
+
+                    StoreControll::create("users", $user);
+                }else {
+                    array_push($errMsg, $imgUser->validation());
                 }
-            
+                        
             }else{
                 array_push($errMsg, "Ошибка получения картинки.");
             }
+        }else {
+            array_push($errMsg, $user->validation());
         }
 
     }
@@ -72,9 +50,7 @@
 
         $id = trim($_GET['delete_id']);
 
-        delete("users", $id);
-        header('location: ' . 'index.php');
-
+        StoreControll::delete("users", $id);
     }
 
     // Код изменение данных магазина
@@ -90,137 +66,89 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnChangeUser'])) {
+        $user = new UserData($_POST);
 
-        $id = trim($_POST["id"]);
-        $login = trim($_POST["login"]);
-        $pass1 = trim($_POST["password1"]);
-        $pass2 = trim($_POST["password2"]);
-        $admin = isset($_POST['admin']) ? 1 : 0;
+        if ($user->validationChange() === false) {
+            $id = $user->id;
 
-        if ($login === '') {
-            array_push($errMsg, "Не все поля заполнены!");
-        }elseif(mb_strlen($login, 'UTF8') <= 2) {
-            array_push($errMsg, "Название должно быть больше 2-ми символов.");
-        }elseif ($pass1 !== "" && $pass2 !== "") {
-            if($pass1 === $pass2) {
-                $pass1 = password_hash($pass1, PASSWORD_DEFAULT);
+            if ($user->pass !== "" && $user->pass2 !== "") {
+                if($user->pass === $user->pass2) {
+                    $pass = password_hash($user->pass, PASSWORD_DEFAULT);
 
-                if($_FILES['img']['name'] == null) {
-                    $user = [
-                        "login" => $login,
-                        "password" => $pass1,
-                        "admin" => $admin,
+                    if ($_FILES['img']['name'] == null) {
+                        $user = [
+                            "login" => $user->login,
+                            "password" => $pass,
+                            "admin" => $user->admin
+                        ];
+                    
+                        StoreControll::change("users", $id, $user);
+                    }else {
+                        if (!empty($_FILES['img']['name'])) {
+                            $imgUser = new UserImg($_FILES);
+            
+                            if ($imgUser->validation() === false) {
+                                $imgUser->getServer() === false ? "" : array_push($errMsg, $imgStore->getServer());
+
+                                $user = [
+                                    "login" => $user->login,
+                                    "password" => $pass,
+                                    "admin" => $user->admin,
+                                    "photo" => $_POST['img']
+                                ];
+            
+                                StoreControll::change("users", $id, $user);
+                            }else {
+                                array_push($errMsg, $imgUser->validation());
+                            }
+                                    
+                        }else{
+                            array_push($errMsg, "Ошибка получения картинки.");
+                        }
+                    }
+                }else {
+                    array_push($errMsg, "Пароли не совпадают.");
+                }
+            }else {
+                if ($_FILES['img']['name'] == null) {
+                    $store = [
+                        "name" => $store->title,
+                        "description" => $store->descript
                     ];
-    
-                    $id = update("users", $id, $user);
-                    header('location: ' . 'index.php');
+
+                    $user = [
+                        "login" => $user->login,
+                        "admin" => $user->admin
+                    ];
+                
+                    StoreControll::change("users", $id, $user);
                 }else {
                     if (!empty($_FILES['img']['name'])) {
-                        $imgName = time() . "_" .  $_FILES['img']['name'];
-                        $fileTmpName = $_FILES['img']['tmp_name'];
-                        $fileType = $_FILES['img']['type'];
-                        $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
-                        
-                        if (strpos($fileType, 'image') === false) {
-                            array_push($errMsg, "Подгружаемый файл не является изображением!");
-                    
-                        }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                            array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-                    
-                        }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                            array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-                    
-                        }else{
-                            $result = move_uploaded_file($fileTmpName, $destination);
-                    
-                            if ($result) {
-                                $_POST['img'] = $imgName;
-                            }else{
-                                array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                            }
+                        $imgUser = new UserImg($_FILES);
         
-                            $pass = password_hash($pass, PASSWORD_DEFAULT);
-        
+                        if ($imgUser->validation() === false) {
+                            $imgUser->getServer() === false ? "" : array_push($errMsg, $imgStore->getServer());
+                            
                             $user = [
-                                "login" => $login,
-                                "password" => $pass1,
-                                "admin" => $admin,
+                                "login" => $user->login,
+                                "admin" => $user->admin,
                                 "photo" => $_POST['img']
                             ];
-                
-                            $id = update("users", $id, $user);
-                            $topic = selectOne("users", ['id' => $id]);
-                            header('location: ' . 'index.php');
+        
+                            StoreControll::change("users", $id, $user);
+                        }else {
+                            array_push($errMsg, $imgUser->validation());
                         }
-                    
+                                
                     }else{
                         array_push($errMsg, "Ошибка получения картинки.");
                     }
                 }
-
-                // $user = [
-                //     "login" => $login,
-                //     "password" => $pass1,
-                //     "admin" => $admin,
-                //     "photo" => "тут тип путь"
-                // ];
-
-                // $id = update("users", $id, $user);
-                // header('location: ' . 'index.php');
-            }else {
-                array_push($errMsg, "Пароли не совпадают.");
             }
-        }else {
-            if($_FILES['img']['name'] == null) {
-                $user = [
-                    "login" => $login,
-                    "admin" => $admin,
-                ];
-    
-                $id = update("users", $id, $user);
-                header('location: ' . 'index.php');
-            }else {
-                if (!empty($_FILES['img']['name'])) {
-                    $imgName = time() . "_" .  $_FILES['img']['name'];
-                    $fileTmpName = $_FILES['img']['tmp_name'];
-                    $fileType = $_FILES['img']['type'];
-                    $destination = ROOT_PATH . "\assets\img\avatar\\" . $imgName;
-                    
-                    if (strpos($fileType, 'image') === false) {
-                        array_push($errMsg, "Подгружаемый файл не является изображением!");
-                
-                    }elseif($_FILES['img']['size'] > (1000 * 1024)){
-                        array_push($errMsg, "Размер загружаймого файла не может превышать 500КБ.");
-                
-                    }elseif(getimagesize($fileTmpName)[0] > 1600 || getimagesize($fileTmpName)[1] > 1000){
-                        array_push($errMsg, "Разрешение загружаймого изображения не может превышать 1600*1000.");
-                
-                    }else{
-                        $result = move_uploaded_file($fileTmpName, $destination);
-                
-                        if ($result) {
-                            $_POST['img'] = $imgName;
-                        }else{
-                            array_push($errMsg, "Ошибка загрузки изображения на сервер.");
-                        }
-    
-                        $pass = password_hash($pass, PASSWORD_DEFAULT);
-    
-                        $user = [
-                            "login" => $login,
-                            "admin" => $admin,
-                            "photo" => $_POST['img']
-                        ];
             
-                        $id = update("users", $id, $user);
-                        $topic = selectOne("users", ['id' => $id]);
-                        header('location: ' . 'index.php');
-                    }
-                
-                }else{
-                    array_push($errMsg, "Ошибка получения картинки.");
-                }
-            }
+            
+        }else {
+            array_push($errMsg, $user->validationChange());
         }
 
     }
