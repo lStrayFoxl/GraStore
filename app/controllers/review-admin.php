@@ -1,5 +1,7 @@
 <?php
     include("../../database/db.php");
+    include("controllers.php");
+    include("../../helps/validationData.php");
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/log.php');
     }
@@ -13,9 +15,7 @@
 
         $id = trim($_GET['delete_id']);
 
-        delete("review", $id);
-        header('location: ' . 'index.php');
-
+        StoreControll::delete("review", $id);
     }
 
     // Код изменение данных отзыва
@@ -30,21 +30,19 @@
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnChangeReview'])) {
+        $review = new ReviewData($_POST);
 
-        $id = trim($_POST["id"]);
-        $comment = trim($_POST["comment"]);
+        if ($review->validation() === false) {
+            $id = $review->id;
 
-        if ($comment === '') {
-            array_push($errMsg, "Не все поля заполнены!");
-        }elseif(mb_strlen($comment, 'UTF8') <= 5) {
-            array_push($errMsg, "Название должно быть больше 5-ми символов.");
-        }else {
             $review = [
-                "comment" => $comment
+                "comment" => $review->comment
             ];
 
-            $id = update("review", $id, $review);
-            header('location: ' . 'index.php');
+            StoreControll::change("review", $id, $review);
+            
+        }else {
+            array_push($errMsg, $comment->validation());
         }
 
     }

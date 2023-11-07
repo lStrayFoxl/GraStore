@@ -67,3 +67,45 @@
             }
         }
     }
+
+    class CommentData extends Data {
+        public $id;
+        public $comment;
+
+        public function __construct($array) {
+            $this->id = isset($array["id"]) ? trim($array["id"]) : "";
+            $this->comment = trim($array["comment"]);
+        }
+
+        public function validation() {
+            if ($this->comment === '') {
+                return "Не все поля заполнены!";
+            }elseif(mb_strlen($this->comment, 'UTF8') <= 5) {
+                return "Комментарий должен быть больше 5-ти символов.";
+            }else {
+                return false;
+            }
+        }
+
+    }
+
+    class ReviewData extends Data {
+        public $id;
+        public $comment;
+
+        public function __construct($array) {
+            $this->id = isset($array["id"]) ? trim($array["id"]) : "";
+            $this->comment = trim($array["comment"]);
+        }
+
+        public function validation() {
+            if ($this->comment === '') {
+                return "Не все поля заполнены!";
+            }elseif(mb_strlen($this->comment, 'UTF8') <= 5) {
+                return "Комментарий должен быть больше 5-ти символов.";
+            }else {
+                return false;
+            }
+        }
+
+    }
