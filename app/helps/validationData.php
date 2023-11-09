@@ -71,10 +71,12 @@
     class CommentData extends Data {
         public $id;
         public $comment;
+        public $id_store;
 
         public function __construct($array) {
             $this->id = isset($array["id"]) ? trim($array["id"]) : "";
             $this->comment = trim($array["comment"]);
+            $this->id_store = isset($array["id_store"]) ? trim($array["id_store"]) : "";
         }
 
         public function validation() {

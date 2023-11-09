@@ -29,3 +29,21 @@ class StoreControll extends Controll
         header('location: ' . 'index.php');
     }
 }
+
+class CommentControll
+{
+    public static function create($table, $params)
+    {
+        insert($table, $params);
+        header('location: ' . 'storePage.php?store_id=' . $params["id_store"]);
+    }
+}
+
+class ReviewControll
+{
+    public static function create($table, $params)
+    {
+        insert($table, $params);
+        header('location: ' . BASE_URL);
+    }
+}

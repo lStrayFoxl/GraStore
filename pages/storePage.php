@@ -8,14 +8,12 @@
     }else {
         include("../app/controllers/comment.php");
     }
-    // include("../app/controllers/comment.php");
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['store_id'])) {
 
         $id = trim($_GET['store_id']);
         $store = selectOne("store", ['id' => $id]);
 
-        // $comments = selectAll("comments", ['id_store' => $id]);
         $comments = selectCommentsFromWithUsers("comments", "users", $id);
     }
 

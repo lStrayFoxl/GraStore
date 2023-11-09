@@ -1,5 +1,7 @@
 <?php
     include("../app/database/db.php");
+    include("controllers.php");
+    include("../app/helps/validationData.php");
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/index.php');
     }
@@ -11,24 +13,18 @@
 
     // Код создания комментария
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnComment'])) {
+        $comment = new CommentData($_POST);
 
-        $id_store = trim($_POST["id_store"]);
-        $comment = trim($_POST["comment"]);
-
-    
-        if ($comment === '') {
-            array_push($errMsg, "Не все поля заполнены!");
-        }elseif(mb_strlen($comment, 'UTF8') <= 5) {
-            array_push($errMsg, "Комментарий должен быть больше 5-ти символов.");
-        }else {
+        if ($comment->validation() === false) {
             $comment = [
                 "id_user" => $_SESSION['id'],
-                "id_store" => $id_store,
-                "comment" => $comment,
+                "id_store" => $comment->id_store,
+                "comment" => $comment->comment
             ];
 
-            $id_com = insert("comments", $comment);
-            header('location: ' . 'storePage.php?store_id=' . $comment["id_store"]);
+            CommentControll::create("comments", $comment);
+            
+        }else {
+            array_push($errMsg, $comment->validation());
         }
-
     }

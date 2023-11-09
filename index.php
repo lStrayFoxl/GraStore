@@ -19,8 +19,6 @@
         $term = "";
         $stores = selectAll("store");
     }
-
-    // $stores = selectAll("store");
 ?>
 
 <!doctype html>

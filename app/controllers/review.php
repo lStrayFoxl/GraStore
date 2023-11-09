@@ -2,24 +2,25 @@
     session_start();
     include("../../path.php");
     include("../database/db.php");
+    include("controllers.php");
+    include("../helps/validationData.php");
 
     if (!$_SESSION) {
         header('location: ' . BASE_URL . '/index.php');
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btnRev'])) {
-        $comment = trim($_POST["comment"]);
+        $comment = new ReviewData($_POST);
 
-        if($comment === "") {
-            echo("Введите отзыв");
-        }
-        else{
-            $params = [
+        if ($comment->validation() === false) {
+            $review = [
                 "userid" => $_SESSION['id'],
-                "comment" => $comment
+                "comment" => $comment->comment
             ];
 
-            insert("review", $params);
-            header('location: ' . BASE_URL);
+            ReviewControll::create("review", $review);
+            
+        }else {
+            array_push($errMsg, $comment->validation());
         }
     }
