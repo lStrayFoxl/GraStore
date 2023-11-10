@@ -40,8 +40,8 @@
         public function __construct($array) {
             $this->id = isset($array["id"]) ? trim($array["id"]) : "";
             $this->login = trim($array["login"]);
-            $this->pass = isset($array['password']) ? trim($_POST["password"]) : trim($_POST["password1"]);
-            $this->pass2 = isset($array['password2']) ? trim($_POST["password2"]) : "";
+            $this->pass = isset($array['password']) ? trim($array["password"]) : trim($array["password1"]);
+            $this->pass2 = isset($array['password2']) ? trim($array["password2"]) : "";
             $this->admin = isset($array['admin']) ? 1 : 0;
         }
 

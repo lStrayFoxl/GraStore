@@ -3,6 +3,7 @@
 
     include("../../../path.php");
     include("../../controllers/store.php");
+    include("../../helps/errorInfo.php");
 ?>
 
 <!doctype html>
@@ -51,9 +52,7 @@
                         <!-- Вывод ошибок с массива -->
                         <?php if (count($errMsg) > 0): ?>
                             <ul>
-                                <?php foreach ($errMsg as $error): ?>
-                                    <li><?=$error?></li>
-                                <?php endforeach; ?>
+                                <?php ErrorInfo::errorView($errMsg); ?>
                             </ul>
                         <?php endif; ?>
                         <?php //include("../../app/helps/errorInfo.php"); ?>  

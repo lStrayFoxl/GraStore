@@ -47,3 +47,46 @@ class ReviewControll
         header('location: ' . BASE_URL);
     }
 }
+
+class UserControll
+{
+    public static function create($table, $params)
+    {
+        insert($table, $params);
+        header('location: ' . BASE_URL);
+    }
+
+    public static function change($table, $id, $params)
+    {
+        $id = update($table, $id, $params);
+        header('location: ' . BASE_URL . "/pages/profile.php");
+    }
+
+    public static function AuthUser($array) {
+        $_SESSION['id'] = $array['id'];
+        $_SESSION['login'] = $array['login'];
+        $_SESSION['admin'] = $array['admin'];
+    
+        if($_SESSION['admin']){
+            header('location: ' . BASE_URL . '/app/admin/store/index.php');
+        }else {
+            header('location: ' . BASE_URL);
+        }
+    }
+
+    public static function unlogin() {
+        $_SESSION = array();
+
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        session_destroy();
+
+        header('location: ' . BASE_URL);
+    }
+}
