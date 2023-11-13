@@ -1,15 +1,65 @@
 <?php
-
     require('connect.php');
 
-    function tt($value){
+    class BdWork {
+      public static function tt($value){
         echo '<pre>';
         print_r($value);
         echo '</pre>';
         exit();
+      }
+
+      //Проверка выполнения запроса к бд
+      private static function dbCheckError($query) {
+        $errInfo = $query->errorInfo();
+
+        if ($errInfo[0] !== PDO::ERR_NONE) {
+            echo $errInfo[2];
+            exit();
+        }
+        return true;
+      }
+
+      //Запрос на получение данных с одной таблицы
+      public static function selectAll($table, $params = []){
+        global $dbh;
+      
+        $sql = "SELECT * FROM $table";
+      
+        if (!empty($params)) {
+          $i = 0;
+          foreach ($params as $key => $value) {
+            if (!is_numeric($value)) {
+              $value = "'" . $value . "'";
+            }
+      
+            if ($i === 0) {
+              $sql = $sql . " WHERE $key = $value";
+            }else {
+              $sql = $sql . " AND $key = $value";
+            }
+            $i++;
+          }
+        }
+      
+        $query = $dbh->prepare($sql);
+        $query->execute();
+      
+        BdWork::dbCheckError($query);
+      
+        return $query->fetchAll();
+      }
+
     }
 
-    //Проверка выполнения запроса к бд
+    // function tt($value){
+    //     echo '<pre>';
+    //     print_r($value);
+    //     echo '</pre>';
+    //     exit();
+    // }
+
+    // //Проверка выполнения запроса к бд
     function dbCheckError($query){
         $errInfo = $query->errorInfo();
 
@@ -20,35 +70,35 @@
         return true;
     }
 
-    //Запрос на получение данных с одной таблицы
-    function selectAll($table, $params = []){
-    global $dbh;
+  //   //Запрос на получение данных с одной таблицы
+  //   function selectAll($table, $params = []){
+  //   global $dbh;
   
-    $sql = "SELECT * FROM $table";
+  //   $sql = "SELECT * FROM $table";
   
-    if (!empty($params)) {
-      $i = 0;
-      foreach ($params as $key => $value) {
-        if (!is_numeric($value)) {
-          $value = "'" . $value . "'";
-        }
+  //   if (!empty($params)) {
+  //     $i = 0;
+  //     foreach ($params as $key => $value) {
+  //       if (!is_numeric($value)) {
+  //         $value = "'" . $value . "'";
+  //       }
   
-        if ($i === 0) {
-          $sql = $sql . " WHERE $key = $value";
-        }else {
-          $sql = $sql . " AND $key = $value";
-        }
-        $i++;
-      }
-    }
+  //       if ($i === 0) {
+  //         $sql = $sql . " WHERE $key = $value";
+  //       }else {
+  //         $sql = $sql . " AND $key = $value";
+  //       }
+  //       $i++;
+  //     }
+  //   }
   
-    $query = $dbh->prepare($sql);
-    $query->execute();
+  //   $query = $dbh->prepare($sql);
+  //   $query->execute();
   
-    dbCheckError($query);
+  //   dbCheckError($query);
   
-    return $query->fetchAll();
-  }
+  //   return $query->fetchAll();
+  // }
   
   //Запрос на получение одной строки с выбранной таблицы
   function selectOne($table, $params = []){

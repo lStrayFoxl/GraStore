@@ -10,7 +10,7 @@
         $users = searchInUser($term, "users");
     }else{
         $term = "";
-        $users = selectAll("users");
+        $users = BdWork::selectAll("users");
     }
     
 ?>

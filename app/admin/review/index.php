@@ -10,7 +10,7 @@
         $reviews = searchInComment($term, "review");
     }else{
         $term = "";
-        $reviews = selectAll("review");
+        $reviews = BdWork::selectAll("review");
     }
     
 ?>

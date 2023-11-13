@@ -42,7 +42,7 @@
             StoreControll::change("review", $id, $review);
             
         }else {
-            array_push($errMsg, $comment->validation());
+            array_push($errMsg, $review->validation());
         }
 
     }

@@ -55,7 +55,6 @@
                                 <?php ErrorInfo::errorView($errMsg); ?>
                             </ul>
                         <?php endif; ?>
-                        <?php //include("../../app/helps/errorInfo.php"); ?>  
                         </div>
                         <form action="addPage.php" method="post" enctype="multipart/form-data">
                             <div class="col mb-4">

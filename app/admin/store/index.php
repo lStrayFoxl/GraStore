@@ -10,7 +10,7 @@
         $stores = searchInWord($term, "store");
     }else{
         $term = "";
-        $stores = selectAll("store");
+        $stores = BdWork::selectAll("store");
     }
     
 ?>

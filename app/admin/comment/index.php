@@ -10,7 +10,7 @@
         $comments = searchInComment($term, "comments");
     }else{
         $term = "";
-        $comments = selectAll("comments");
+        $comments = BdWork::selectAll("comments");
     }
     
 ?>
