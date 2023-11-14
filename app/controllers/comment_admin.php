@@ -23,7 +23,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['change_id'])) {
 
         $id = trim($_GET['change_id']);
-        $comment = selectOne("comments", ['id' => $id]);
+        $comment = BdWork::selectOne("comments", ['id' => $id]);
 
         $id_user = $comment['id_user'];
         $id_store = $comment['id_store'];

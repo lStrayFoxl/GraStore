@@ -57,7 +57,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['change_id'])) {
 
         $id = trim($_GET['change_id']);
-        $user = selectOne("users", ['id' => $id]);
+        $user = BdWork::selectOne("users", ['id' => $id]);
 
         $login = $user['login'];
         $pass = $user['password'];

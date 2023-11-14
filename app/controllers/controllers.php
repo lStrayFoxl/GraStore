@@ -13,19 +13,19 @@ class StoreControll extends Controll
 {
     public static function create($table, $params)
     {
-        insert($table, $params);
+        BdWork::insert($table, $params);
         header('location: ' . 'index.php');
     }
 
     public static function delete($table, $id)
     {
-        delete($table, $id);
+        BdWork::delete($table, $id);
         header('location: ' . 'index.php');
     }
 
     public static function change($table, $id, $params)
     {
-        $id = update($table, $id, $params);
+        $id = BdWork::update($table, $id, $params);
         header('location: ' . 'index.php');
     }
 }
@@ -34,7 +34,7 @@ class CommentControll
 {
     public static function create($table, $params)
     {
-        insert($table, $params);
+        BdWork::insert($table, $params);
         header('location: ' . 'storePage.php?store_id=' . $params["id_store"]);
     }
 }
@@ -43,7 +43,7 @@ class ReviewControll
 {
     public static function create($table, $params)
     {
-        insert($table, $params);
+        BdWork::insert($table, $params);
         header('location: ' . BASE_URL);
     }
 }
@@ -52,13 +52,13 @@ class UserControll
 {
     public static function create($table, $params)
     {
-        insert($table, $params);
+        BdWork::insert($table, $params);
         header('location: ' . BASE_URL);
     }
 
     public static function change($table, $id, $params)
     {
-        $id = update($table, $id, $params);
+        $id = BdWork::update($table, $id, $params);
         header('location: ' . BASE_URL . "/pages/profile.php");
     }
 

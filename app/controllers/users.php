@@ -37,7 +37,7 @@
         $user = new UserData($_POST);
 
         if ($user->validation() === false) {
-            $existence = selectOne('users', ['login' => $user->login]);
+            $existence = BdWork::selectOne('users', ['login' => $user->login]);
             
             if($existence == null) {
                 echo("Пользователь не найден!");

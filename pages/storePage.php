@@ -12,7 +12,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['store_id'])) {
 
         $id = trim($_GET['store_id']);
-        $store = selectOne("store", ['id' => $id]);
+        $store = BdWork::selectOne("store", ['id' => $id]);
 
         $comments = selectCommentsFromWithUsers("comments", "users", $id);
     }

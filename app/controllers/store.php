@@ -56,7 +56,7 @@
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['change_id'])) {
 
         $id = trim($_GET['change_id']);
-        $store = selectOne("store", ['id' => $id]);
+        $store = BdWork::selectOne("store", ['id' => $id]);
 
         $title = $store['name'];
         $descript = $store['description'];
