@@ -7,7 +7,7 @@
 
     if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
         $term = $_POST['search-term'];
-        $comments = searchInComment($term, "comments");
+        $comments = UniqueRequest::searchInComment($term, "comments");
     }else{
         $term = "";
         $comments = BdWork::selectAll("comments");

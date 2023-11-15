@@ -1,16 +1,9 @@
 <?php
     require('connect.php');
 
-    final class BdWork {
-      public static function tt($value){
-        echo '<pre>';
-        print_r($value);
-        echo '</pre>';
-        exit();
-      }
-
+    class BdCheck {
       //Проверка выполнения запроса к бд
-      private static function dbCheckError($query) {
+      final protected static function dbCheckError($query) {
         $errInfo = $query->errorInfo();
 
         if ($errInfo[0] !== PDO::ERR_NONE) {
@@ -18,6 +11,15 @@
             exit();
         }
         return true;
+      }
+    }
+
+    final class BdWork extends BdCheck {
+      public static function tt($value){
+        echo '<pre>';
+        print_r($value);
+        echo '</pre>';
+        exit();
       }
 
       //Запрос на получение данных с одной таблицы
@@ -143,78 +145,69 @@
 
     }
 
-    // //Проверка выполнения запроса к бд
-    function dbCheckError($query){
-        $errInfo = $query->errorInfo();
+    final class UniqueRequest extends BdCheck {
+      // Поиск по слову
+      public static function searchInWord($term, $table) {
+        global $dbh;
 
-        if ($errInfo[0] !== PDO::ERR_NONE) {
-            echo $errInfo[2];
-            exit();
-        }
-        return true;
+        $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+        $sql = "SELECT s.* FROM $table AS s 
+                WHERE s.name LIKE '%$text%'";
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        UniqueRequest::dbCheckError($query);
+
+        return $query->fetchAll();
+      }
+
+      // Поиск пользователя
+      public static function searchInUser($term, $table) {
+        global $dbh;
+
+        $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+        $sql = "SELECT u.* FROM $table AS u 
+                WHERE u.login LIKE '%$text%'";
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        UniqueRequest::dbCheckError($query);
+
+        return $query->fetchAll();
+      }
+
+      // Поиск комментариев и отзывов
+      public static function searchInComment($term, $table) {
+        global $dbh;
+
+        $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
+
+        $sql = "SELECT u.* FROM $table AS u 
+                WHERE u.comment LIKE '%$text%'";
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        UniqueRequest::dbCheckError($query);
+
+        return $query->fetchAll();
+      }
+
+      // Выборка комментариев с польователем
+      public static function selectCommentsFromWithUsers($table1, $table2, $id_store) {
+        global $dbh;
+
+        $sql = "SELECT c.*, u.login FROM $table1 AS c JOIN $table2 AS u ON c.id_user = u.id WHERE c.id_store = $id_store";
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        UniqueRequest::dbCheckError($query);
+
+        return $query->fetchAll();
+      }
     }
-
-  // Поиск по слову
-  function searchInWord($term, $table) {
-    global $dbh;
-
-    $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
-
-    $sql = "SELECT s.* FROM $table AS s 
-            WHERE s.name LIKE '%$text%'";
-
-    $query = $dbh->prepare($sql);
-    $query->execute();
-
-    dbCheckError($query);
-
-    return $query->fetchAll();
-}
-
-// Поиск пользователя
-function searchInUser($term, $table) {
-  global $dbh;
-
-  $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
-
-  $sql = "SELECT u.* FROM $table AS u 
-          WHERE u.login LIKE '%$text%'";
-
-  $query = $dbh->prepare($sql);
-  $query->execute();
-
-  dbCheckError($query);
-
-  return $query->fetchAll();
-}
-
-// Поиск комментариев и отзывов
-function searchInComment($term, $table) {
-  global $dbh;
-
-  $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
-
-  $sql = "SELECT u.* FROM $table AS u 
-          WHERE u.comment LIKE '%$text%'";
-
-  $query = $dbh->prepare($sql);
-  $query->execute();
-
-  dbCheckError($query);
-
-  return $query->fetchAll();
-}
-  
-// Выборка комментариев с польователем
-function selectCommentsFromWithUsers($table1, $table2, $id_store) {
-  global $dbh;
-
-  $sql = "SELECT c.*, u.login FROM $table1 AS c JOIN $table2 AS u ON c.id_user = u.id WHERE c.id_store = $id_store";
-
-  $query = $dbh->prepare($sql);
-  $query->execute();
-
-  dbCheckError($query);
-
-  return $query->fetchAll();
-}

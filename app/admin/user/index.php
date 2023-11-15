@@ -7,7 +7,7 @@
 
     if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
         $term = $_POST['search-term'];
-        $users = searchInUser($term, "users");
+        $users = UniqueRequest::searchInUser($term, "users");
     }else{
         $term = "";
         $users = BdWork::selectAll("users");

@@ -14,7 +14,7 @@
         $id = trim($_GET['store_id']);
         $store = BdWork::selectOne("store", ['id' => $id]);
 
-        $comments = selectCommentsFromWithUsers("comments", "users", $id);
+        $comments = UniqueRequest::selectCommentsFromWithUsers("comments", "users", $id);
     }
 
 ?>

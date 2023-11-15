@@ -7,7 +7,7 @@
 
     if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
         $term = $_POST['search-term'];
-        $reviews = searchInComment($term, "review");
+        $reviews = UniqueRequest::searchInComment($term, "review");
     }else{
         $term = "";
         $reviews = BdWork::selectAll("review");

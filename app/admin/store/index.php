@@ -7,7 +7,7 @@
 
     if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
         $term = $_POST['search-term'];
-        $stores = searchInWord($term, "store");
+        $stores = UniqueRequest::searchInWord($term, "store");
     }else{
         $term = "";
         $stores = BdWork::selectAll("store");
