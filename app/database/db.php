@@ -143,17 +143,38 @@
         BdWork::dbCheckError($query);
       }
 
+      // Получение количества строк в таблице
+      public static function countRow($table, $text) {
+        global $dbh;
+
+        if ($text !== "") {
+          $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
+          $sql = "SELECT COUNT(*) FROM $table WHERE $table.name LIKE '%$text%'";
+        }else {
+          $sql = "SELECT COUNT(*) FROM $table";
+        }
+        
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        BdWork::dbCheckError($query);
+
+        return $query->fetchColumn();
+      }
+
     }
 
     final class UniqueRequest extends BdCheck {
       // Поиск по слову
-      public static function searchInWord($term, $table) {
+      public static function searchInWord($term, $table, $limit, $offset) {
         global $dbh;
 
         $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
 
         $sql = "SELECT s.* FROM $table AS s 
-                WHERE s.name LIKE '%$text%'";
+                WHERE s.name LIKE '%$text%'
+                LIMIT $limit OFFSET $offset";
 
         $query = $dbh->prepare($sql);
         $query->execute();
@@ -197,11 +218,25 @@
         return $query->fetchAll();
       }
 
-      // Выборка комментариев с польователем
+      // Выборка комментариев с пользователем
       public static function selectCommentsFromWithUsers($table1, $table2, $id_store) {
         global $dbh;
 
         $sql = "SELECT c.*, u.login FROM $table1 AS c JOIN $table2 AS u ON c.id_user = u.id WHERE c.id_store = $id_store";
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        UniqueRequest::dbCheckError($query);
+
+        return $query->fetchAll();
+      }
+
+      // Выборка записей на главную
+      public static function selectAllFromStore($table1, $limit, $offset) {
+        global $dbh;
+
+        $sql = "SELECT s.* FROM $table1 AS s LIMIT $limit OFFSET $offset";
 
         $query = $dbh->prepare($sql);
         $query->execute();

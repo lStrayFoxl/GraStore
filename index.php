@@ -11,13 +11,29 @@
     include("path.php");
     include("app/database/connect.php");
     include("app/database/db.php");
+
+    if(isset($_GET['term'])) {
+        $_POST['search-term'] = $_GET['term'];
+    }
     
     if(isset($_POST['search-term']) && $_POST['search-term'] !== "") {
-        $term = $_POST['search-term'];
-        $stores = UniqueRequest::searchInWord($term, "store");
+        $term = isset($_POST['search-term']) ? $_POST['search-term'] : $_GET['term'];
+
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $limit = 3;
+        $offset = $limit * ($page - 1);
+        $total_pages = round(BdWork::countRow('store', $term) / $limit, 0);
+        
+        $stores = UniqueRequest::searchInWord($term, "store", $limit, $offset);
     }else{
         $term = "";
-        $stores = BdWork::selectAll("store");
+
+        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $limit = 3;
+        $offset = $limit * ($page - 1);
+        $total_pages = round(BdWork::countRow('store', $term) / $limit, 0);
+
+        $stores = UniqueRequest::selectAllFromStore("store", $limit, $offset);
     }
 ?>
 
@@ -81,6 +97,34 @@
                             
                         </div>
                     <?php endforeach;?>
+                    
+                    <?php if ($total_pages > 1):?>
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center mt-5">
+                            <li class="page-item"><a class="page-link" href="?page=1&term=<?= $term; ?>">First</a></li>
+
+                            <?php if($page > 2): ?>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $page - 2 ?>&term=<?= $term; ?>"><?= $page - 2 ?></a></li>
+                            <?php endif; ?>
+
+                            <?php if($page > 1): ?>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $page - 1 ?>&term=<?= $term; ?>"><?= $page - 1 ?></a></li>
+                            <?php endif; ?>
+                            
+                            <li class="page-item"><a class="page-link" href="?page=<?= $page ?>&term=<?= $term; ?>"><?= $page ?></a></li>
+
+                            <?php if($page < $total_pages): ?>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $page +  1 ?>&term=<?= $term; ?>"><?= $page +  1 ?></a></li>
+                            <?php endif; ?>
+
+                            <?php if($page < ($total_pages - 1)): ?>
+                                <li class="page-item"><a class="page-link" href="?page=<?= $page +  2 ?>&term=<?= $term; ?>"><?= $page +  2 ?></a></li>
+                            <?php endif; ?>
+
+                            <li class="page-item"><a class="page-link" href="?page=<?= $total_pages; ?>&term=<?= $term; ?>">Last</a></li>
+                        </ul>
+                    </nav>
+                    <?php endif;?>
                 <?php endif;?>
 
             </div>
