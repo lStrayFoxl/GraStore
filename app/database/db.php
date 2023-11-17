@@ -163,6 +163,47 @@
         return $query->fetchColumn();
       }
 
+      // TODO: придумать как обойтись без доп функций 
+      // Получение количества строк в таблице
+      public static function countRowUser($table, $text) {
+        global $dbh;
+
+        if ($text !== "") {
+          $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
+          $sql = "SELECT COUNT(*) FROM $table WHERE $table.login LIKE '%$text%'";
+        }else {
+          $sql = "SELECT COUNT(*) FROM $table";
+        }
+        
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        BdWork::dbCheckError($query);
+
+        return $query->fetchColumn();
+      }
+
+      // Получение количества строк в таблице
+      public static function countRowComment($table, $text) {
+        global $dbh;
+
+        if ($text !== "") {
+          $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
+          $sql = "SELECT COUNT(*) FROM $table WHERE $table.comment LIKE '%$text%'";
+        }else {
+          $sql = "SELECT COUNT(*) FROM $table";
+        }
+        
+
+        $query = $dbh->prepare($sql);
+        $query->execute();
+
+        BdWork::dbCheckError($query);
+
+        return $query->fetchColumn();
+      }
+
     }
 
     final class UniqueRequest extends BdCheck {
@@ -185,13 +226,14 @@
       }
 
       // Поиск пользователя
-      public static function searchInUser($term, $table) {
+      public static function searchInUser($term, $table, $limit, $offset) {
         global $dbh;
 
         $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
 
         $sql = "SELECT u.* FROM $table AS u 
-                WHERE u.login LIKE '%$text%'";
+                WHERE u.login LIKE '%$text%'
+                LIMIT $limit OFFSET $offset";
 
         $query = $dbh->prepare($sql);
         $query->execute();
@@ -202,13 +244,14 @@
       }
 
       // Поиск комментариев и отзывов
-      public static function searchInComment($term, $table) {
+      public static function searchInComment($term, $table, $limit, $offset) {
         global $dbh;
 
         $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
 
         $sql = "SELECT u.* FROM $table AS u 
-                WHERE u.comment LIKE '%$text%'";
+                WHERE u.comment LIKE '%$text%'
+                LIMIT $limit OFFSET $offset";
 
         $query = $dbh->prepare($sql);
         $query->execute();
