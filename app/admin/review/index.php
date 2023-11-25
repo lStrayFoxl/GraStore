@@ -15,7 +15,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 4;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowComment('review', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('review', $term, "comment") / $limit, 0);
         
         $reviews = UniqueRequest::searchInComment($term, "review", $limit, $offset);
     }else{
@@ -24,7 +24,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 4;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowComment('review', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('review', $term, "comment") / $limit, 0);
 
         $reviews = UniqueRequest::selectAllFromStore("review", $limit, $offset);
     }

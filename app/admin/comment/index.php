@@ -15,7 +15,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 4;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowComment('comments', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('comments', $term, "comment") / $limit, 0);
         
         $comments = UniqueRequest::searchInComment($term, "comments", $limit, $offset);
     }else{
@@ -24,7 +24,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 4;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowComment('comments', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('comments', $term, "comment") / $limit, 0);
 
         $comments = UniqueRequest::selectAllFromStore("comments", $limit, $offset);
     }

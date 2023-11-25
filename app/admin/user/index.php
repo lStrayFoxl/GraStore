@@ -15,7 +15,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 3;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowUser('users', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('users', $term, "login") / $limit, 0);
         
         $users = UniqueRequest::searchInUser($term, "users", $limit, $offset);
     }else{
@@ -24,7 +24,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 3;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRowUser('users', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('users', $term, "login") / $limit, 0);
 
         $users = UniqueRequest::selectAllFromStore("users", $limit, $offset);
     }

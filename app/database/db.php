@@ -144,53 +144,12 @@
       }
 
       // Получение количества строк в таблице
-      public static function countRow($table, $text) {
+      public static function countRow($table, $text, $column) {
         global $dbh;
 
         if ($text !== "") {
           $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
-          $sql = "SELECT COUNT(*) FROM $table WHERE $table.name LIKE '%$text%'";
-        }else {
-          $sql = "SELECT COUNT(*) FROM $table";
-        }
-        
-
-        $query = $dbh->prepare($sql);
-        $query->execute();
-
-        BdWork::dbCheckError($query);
-
-        return $query->fetchColumn();
-      }
-
-      // TODO: придумать как обойтись без доп функций 
-      // Получение количества строк в таблице
-      public static function countRowUser($table, $text) {
-        global $dbh;
-
-        if ($text !== "") {
-          $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
-          $sql = "SELECT COUNT(*) FROM $table WHERE $table.login LIKE '%$text%'";
-        }else {
-          $sql = "SELECT COUNT(*) FROM $table";
-        }
-        
-
-        $query = $dbh->prepare($sql);
-        $query->execute();
-
-        BdWork::dbCheckError($query);
-
-        return $query->fetchColumn();
-      }
-
-      // Получение количества строк в таблице
-      public static function countRowComment($table, $text) {
-        global $dbh;
-
-        if ($text !== "") {
-          $text = trim(strip_tags(stripcslashes(htmlspecialchars($text))));
-          $sql = "SELECT COUNT(*) FROM $table WHERE $table.comment LIKE '%$text%'";
+          $sql = "SELECT COUNT(*) FROM $table WHERE $table.$column LIKE '%$text%'";
         }else {
           $sql = "SELECT COUNT(*) FROM $table";
         }

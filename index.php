@@ -22,7 +22,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 3;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRow('store', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('store', $term, "name") / $limit, 0);
         
         $stores = UniqueRequest::searchInWord($term, "store", $limit, $offset);
     }else{
@@ -31,7 +31,7 @@
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
         $limit = 3;
         $offset = $limit * ($page - 1);
-        $total_pages = round(BdWork::countRow('store', $term) / $limit, 0);
+        $total_pages = round(BdWork::countRow('store', $term, "name") / $limit, 0);
 
         $stores = UniqueRequest::selectAllFromStore("store", $limit, $offset);
     }
