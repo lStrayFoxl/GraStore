@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <!-- Connecting to js -->
-    <script src="assets/js/script.js"></script>
+    <!-- Connecting to js
+    <script src="assets/js/script.js"></script> -->
 
 </section>
