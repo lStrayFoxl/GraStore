@@ -17,7 +17,7 @@
         $offset = $limit * ($page - 1);
         $total_pages = round(BdWork::countRow('review', $term, "comment") / $limit, 0);
         
-        $reviews = UniqueRequest::searchInComment($term, "review", $limit, $offset);
+        $reviews = UniqueRequest::searchInWord($term, "review", $limit, $offset, "comment");
     }else{
         $term = "";
 

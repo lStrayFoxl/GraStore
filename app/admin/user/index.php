@@ -17,7 +17,7 @@
         $offset = $limit * ($page - 1);
         $total_pages = round(BdWork::countRow('users', $term, "login") / $limit, 0);
         
-        $users = UniqueRequest::searchInUser($term, "users", $limit, $offset);
+        $users = UniqueRequest::searchInWord($term, "users", $limit, $offset, "login");
     }else{
         $term = "";
 

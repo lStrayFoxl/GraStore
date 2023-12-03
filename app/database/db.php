@@ -167,49 +167,13 @@
 
     final class UniqueRequest extends BdCheck {
       // Поиск по слову
-      public static function searchInWord($term, $table, $limit, $offset) {
+      public static function searchInWord($term, $table, $limit, $offset, $column) {
         global $dbh;
 
         $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
 
-        $sql = "SELECT s.* FROM $table AS s 
-                WHERE s.name LIKE '%$text%'
-                LIMIT $limit OFFSET $offset";
-
-        $query = $dbh->prepare($sql);
-        $query->execute();
-
-        UniqueRequest::dbCheckError($query);
-
-        return $query->fetchAll();
-      }
-
-      // Поиск пользователя
-      public static function searchInUser($term, $table, $limit, $offset) {
-        global $dbh;
-
-        $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
-
-        $sql = "SELECT u.* FROM $table AS u 
-                WHERE u.login LIKE '%$text%'
-                LIMIT $limit OFFSET $offset";
-
-        $query = $dbh->prepare($sql);
-        $query->execute();
-
-        UniqueRequest::dbCheckError($query);
-
-        return $query->fetchAll();
-      }
-
-      // Поиск комментариев и отзывов
-      public static function searchInComment($term, $table, $limit, $offset) {
-        global $dbh;
-
-        $text = trim(strip_tags(stripcslashes(htmlspecialchars($term))));
-
-        $sql = "SELECT u.* FROM $table AS u 
-                WHERE u.comment LIKE '%$text%'
+        $sql = "SELECT t.* FROM $table AS t 
+                WHERE t.$column LIKE '%$text%'
                 LIMIT $limit OFFSET $offset";
 
         $query = $dbh->prepare($sql);

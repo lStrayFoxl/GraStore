@@ -17,7 +17,7 @@
         $offset = $limit * ($page - 1);
         $total_pages = round(BdWork::countRow('store', $term, "name") / $limit, 0);
         
-        $stores = UniqueRequest::searchInWord($term, "store", $limit, $offset);
+        $stores = UniqueRequest::searchInWord($term, "store", $limit, $offset, "name");
     }else{
         $term = "";
 
